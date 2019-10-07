@@ -1,0 +1,17 @@
+﻿  TileMap.cpp
+d:\projectc++\split\split\tilemap.cpp(68): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  SpriteSheet.cpp
+  SpriteManager.cpp
+  Sprite.cpp
+  Player.cpp
+d:\projectc++\split\split\player.cpp(85): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\projectc++\split\split\player.cpp(86): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\projectc++\split\split\player.cpp(87): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\projectc++\split\split\player.cpp(88): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Main.cpp
+  Animator.cpp
+d:\projectc++\split\split\animator.cpp(24): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+d:\projectc++\split\split\animator.cpp(30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  Split.vcxproj -> D:\ProjectC++\Split\x64\TristanDebug\Split.exe
+  Split.vcxproj -> D:\ProjectC++\Split\x64\TristanDebug\Split.pdb (Partial PDB)

@@ -19,6 +19,7 @@ Player::Player(SpriteManager* spriteManager, Animator* animator, int posX, int p
 	_left(false),
 	_right(false),
 	_up(false),
+	_jump(false),
 	_down(false),
 	_spriteManager(spriteManager),
 	_animator(animator)
@@ -82,11 +83,26 @@ void Player::idle(Movements movement) {
 void Player::Draw(float deltaTime) {
 	bool goingLeft = false;
 
+	//Movement
 	if (_left) _sprite->setPosX(_sprite->getPosX() - (PLAYER_SPEED * deltaTime));
 	if (_right) _sprite->setPosX(_sprite->getPosX() + (PLAYER_SPEED * deltaTime));
-	if (_up) _sprite->setPosY(_sprite->getPosY() - (PLAYER_SPEED * deltaTime));
+	if (_up && !_jump) {
+		_jump = true;
+		_jumpValue = 0;
+	}
 	if (_down) _sprite->setPosY(_sprite->getPosY() + (PLAYER_SPEED * deltaTime));
 
+	//Gravity
+	if (_jump) {
+		_sprite->setPosY(_sprite->getPosY() - (PLAYER_MASS * deltaTime));
+		_jumpValue += (PLAYER_MASS * deltaTime);
+		if (_jumpValue >= PLAYER_JUMP) {
+			_jump = false;
+		}
+	}
+	else {
+		_sprite->setPosY(_sprite->getPosY() + (PLAYER_MASS * deltaTime));
+	}
 	ClampX(_sprite);
 	ClampY(_sprite);
 

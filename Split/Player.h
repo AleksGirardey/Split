@@ -25,6 +25,8 @@ private:
 	bool _up;
 	bool _down;
 	bool _idle;
+	bool _jump;
+	float _jumpValue;
 	AnimationState _state;
 
 	void ClampX(Sprite*);
