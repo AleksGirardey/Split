@@ -1,0 +1,14 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (WorkshopSFML.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Animator.cpp
+  Main.cpp
+  Player.cpp
+C:\Workspace\CPP\WorkshopCppWeek02\WorkshopSFMLProjet3\Player.cpp(85,49): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Workspace\CPP\WorkshopCppWeek02\WorkshopSFMLProjet3\Player.cpp(86,50): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Workspace\CPP\WorkshopCppWeek02\WorkshopSFMLProjet3\Player.cpp(87,47): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+  Sprite.cpp
+  SpriteManager.cpp
+  SpriteSheet.cpp
+  TileMap.cpp
+  Generating Code...
+C:\Workspace\CPP\WorkshopCppWeek02\WorkshopSFMLProjet3\Player.cpp(88,49): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+  WorkshopSFMLProjet3.vcxproj -> C:\Workspace\CPP\WorkshopCppWeek02\Debug\WorkshopSFMLProjet3.exe
