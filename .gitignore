@@ -21,3 +21,8 @@
 *.app
 
 *.vs
+TristanDebug/sfml-window-d-2.dll
+TristanDebug/sfml-system-d-2.dll
+TristanDebug/sfml-graphics-d-2.dll
+TristanDebug/Split.pdb
+Split/TristanDebug/vc141.pdb
