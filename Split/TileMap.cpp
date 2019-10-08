@@ -81,7 +81,7 @@ void TileMap::LoadFromCSV(std::string path) {
 	stream.close();
 }
 
-void TileMap::DrawMap() {
+void TileMap::DrawMap(Physics* physic) {
 	Sprite* sprite;
 	int tileIndex = 0;
 	float posX = 0;
@@ -113,7 +113,10 @@ void TileMap::DrawMap() {
 				if ((tileIndex - 1) == *it)
 					layer = 2;
 			}
-
+			if (tileIndex == 417) {
+				physic->AddObstacle(posX, posY, SPRITESHEET_CELL_SIZE * SCALE, SPRITESHEET_CELL_SIZE * SCALE);
+				tileIndex;
+			}
 			sprite = new Sprite(tileIndex - 1, posX, posY, flipH, flipV, flipD, layer);
 			_spriteManager->AddStaticElement(sprite);
 		}

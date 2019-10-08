@@ -3,6 +3,7 @@
 #include "SpriteManager.h"
 #include "Animator.h"
 #include "Sprite.h"
+#include "Physics.h"
 
 #include <string>
 #include <iostream>
@@ -20,6 +21,8 @@ private:
 	Sprite* _sprite;
 	SpriteManager* _spriteManager;
 	Animator* _animator;
+	Physics* _physics;
+
 	bool _left;
 	bool _right;
 	bool _up;
@@ -32,8 +35,8 @@ private:
 	void ClampX(Sprite*);
 	void ClampY(Sprite*);
 public:
-	Player(SpriteManager* spriteManager, Animator* animator);
-	Player(SpriteManager* spriteManager, Animator* animator, int posX, int posY);
+	Player(SpriteManager* spriteManager, Animator* animator, Physics* physics);
+	Player(SpriteManager* spriteManager, Animator* animator, Physics* physics, int posX, int posY);
 	~Player();
 
 	void goingRight();

@@ -5,6 +5,7 @@
 #include "TileMap.h"
 #include "Animator.h"
 #include "Player.h"
+#include "Physics.h"
 
 void HandleKeyPressed(Player* player) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -46,10 +47,11 @@ int main(int argc, char** argv)
 	window.setFramerateLimit(FRAME_RATE);
 	sf::Clock clock;
 
+	Physics physics;
 	Animator animPlayerOne("242", "243,244", "245,246", "247", 0.5f);
-	Player playerOne(&spriteManager, &animPlayerOne);
+	Player playerOne(&spriteManager, &animPlayerOne, &physics);
 
-	tileMap.DrawMap();
+	tileMap.DrawMap(&physics);
 	spriteManager.SortStaticElements();
 
 	sf::Color background = sf::Color(71, 45, 60, 255);

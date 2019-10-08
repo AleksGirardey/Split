@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(SpriteManager* spriteManager, Animator* animator) :
+Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physics) :
 	_state(IDLE),
 	_idle(true),
 	_left(false),
@@ -8,12 +8,13 @@ Player::Player(SpriteManager* spriteManager, Animator* animator) :
 	_up(false),
 	_down(false),
 	_spriteManager(spriteManager),
-	_animator(animator)
+	_animator(animator),
+	_physics(physics)
 {
 	_sprite = new Sprite(0, 0.f, 0.f, false, false, false, 1);
 }
 
-Player::Player(SpriteManager* spriteManager, Animator* animator, int posX, int posY) :
+Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physics, int posX, int posY) :
 	_state(IDLE),
 	_idle(true),
 	_left(false),
@@ -22,7 +23,8 @@ Player::Player(SpriteManager* spriteManager, Animator* animator, int posX, int p
 	_jump(false),
 	_down(false),
 	_spriteManager(spriteManager),
-	_animator(animator)
+	_animator(animator),
+	_physics(physics)
 {
 	_sprite = new Sprite(
 		0,
@@ -84,25 +86,21 @@ void Player::Draw(float deltaTime) {
 	bool goingLeft = false;
 
 	//Movement
-	if (_left) _sprite->setPosX(_sprite->getPosX() - (PLAYER_SPEED * deltaTime));
-	if (_right) _sprite->setPosX(_sprite->getPosX() + (PLAYER_SPEED * deltaTime));
+	if (_left) _physics->MoveX(_sprite,-(PLAYER_SPEED * deltaTime));
+	if (_right) _physics->MoveX(_sprite, (PLAYER_SPEED * deltaTime));
 	if (_up && !_jump) {
 		_jump = true;
-		_jumpValue = 0;
+		_physics->AddForce(PLAYER_JUMP);
 	}
-	if (_down) _sprite->setPosY(_sprite->getPosY() + (PLAYER_SPEED * deltaTime));
-
-	//Gravity
-	if (_jump) {
-		_sprite->setPosY(_sprite->getPosY() - (PLAYER_MASS * deltaTime));
-		_jumpValue += (PLAYER_MASS * deltaTime);
-		if (_jumpValue >= PLAYER_JUMP) {
+	//if (_down) _sprite->setPosY(_sprite->getPosY() + (PLAYER_SPEED * deltaTime));
+	if (_physics->GetVelocity() <= 0) {
+		if (!_physics->CheckObstacle(_sprite->getPosX(),_sprite->getPosY()+PLAYER_MASS*deltaTime)) {
 			_jump = false;
 		}
 	}
-	else {
-		_sprite->setPosY(_sprite->getPosY() + (PLAYER_MASS * deltaTime));
-	}
+	 _physics->UpdateGravity(_sprite, deltaTime);
+	 
+	//Clamp
 	ClampX(_sprite);
 	ClampY(_sprite);
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include "Physics.h"
 
 #include "SpriteManager.h"
 
@@ -18,5 +19,5 @@ public:
 	~TileMap();
 
 	void LoadFromCSV(std::string path);
-	void DrawMap();
+	void DrawMap(Physics* physic);
 };

@@ -1,9 +1,6 @@
 ﻿  Player.cpp
-d:\projectc++\split\split\player.cpp(87): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\projectc++\split\split\player.cpp(88): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\projectc++\split\split\player.cpp(93): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\projectc++\split\split\player.cpp(89): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\projectc++\split\split\player.cpp(90): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 d:\projectc++\split\split\player.cpp(97): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\projectc++\split\split\player.cpp(98): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\projectc++\split\split\player.cpp(104): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Split.vcxproj -> D:\ProjectC++\Split\TristanDebug\Split.exe
   Split.vcxproj -> D:\ProjectC++\Split\TristanDebug\Split.pdb (Partial PDB)

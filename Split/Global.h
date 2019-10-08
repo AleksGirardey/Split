@@ -12,7 +12,7 @@
 #define SCREEN_HEIGHT 24
 
 #define PLAYER_SPEED 0.1
-#define PLAYER_JUMP 40
+#define PLAYER_JUMP 60
 #define PLAYER_MASS 0.5
 
 #endif // !GLOBAL
