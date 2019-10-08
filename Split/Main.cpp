@@ -28,6 +28,8 @@ void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
 	}
 }
 
+
+
 int main(int argc, char** argv)
 {
 	sf::Time deltaTime;
@@ -58,7 +60,7 @@ int main(int argc, char** argv)
 
 	while (window.isOpen()) {
 		sf::Event event;
-
+		//sf::Joystick::update();
 		deltaTime = clock.restart();
 
 		while (window.pollEvent(event)) {
@@ -67,9 +69,36 @@ int main(int argc, char** argv)
 			if (event.type == sf::Event::KeyPressed) {
 				HandleKeyPressed(&playerOne);
 			}
+
 			if (event.type == sf::Event::KeyReleased) {
 				HandleKeyReleased(&playerOne, event.key.code);
 			}
+
+			//JOYSTICK
+			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+
+			if (x > 20) {
+				playerOne.goingRight();
+			}
+			else if (x < -20) {
+				playerOne.goingLeft();
+			}
+			else {
+				playerOne.idle(LEFT);
+				playerOne.idle(RIGHT);
+			}
+			if (event.type == sf::Event::JoystickButtonPressed) {
+				if (sf::Joystick::isButtonPressed(0, 0)) {
+					playerOne.goingUp();
+				}
+				else {
+					playerOne.idle(UP);
+				}
+			}
+			else {
+				playerOne.idle(UP);
+			}
+			
 		}
 
 		window.clear(background);
