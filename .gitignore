@@ -21,3 +21,14 @@
 *.app
 
 *.vs
+
+*Debug/*
+Split/Debug/
+
+Debug/
+
+Split/TristanDebug/
+
+TristanDebug/
+
+Split/
