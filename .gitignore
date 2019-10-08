@@ -22,13 +22,7 @@
 
 *.vs
 
-*Debug/*
 Split/Debug/
-
-Debug/
-
 Split/TristanDebug/
-
+Debug/
 TristanDebug/
-
-Split/
