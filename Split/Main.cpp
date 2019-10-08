@@ -27,23 +27,18 @@ void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
 	}
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	sf::Time deltaTime;
+	
+	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 
-	sf::RenderWindow window(
-		sf::VideoMode(SCREEN_WIDTH * SPRITESHEET_CELL_SIZE * SCALE,
-			SCREEN_HEIGHT * SPRITESHEET_CELL_SIZE * SCALE),
-		"Hello SFML");
+	std::string tileMapPath = "./Assets/chunked.csv";
 
-	std::string tileMapPath = "./Assets/sample_fantasy.csv";
-
-	SpriteManager spriteManager(&window, "./Assets/colored_transparent.png");
+	SpriteManager spriteManager(spritesheet);
 	TileMap tileMap(&spriteManager);
 
 	tileMap.LoadFromCSV(tileMapPath);
 
-	window.setFramerateLimit(FRAME_RATE);
 	sf::Clock clock;
 
 	Animator animPlayerOne("242", "243,244", "245,246", "247", 0.5f);
@@ -51,33 +46,29 @@ int main(int argc, char** argv)
 
 	tileMap.DrawMap();
 	spriteManager.SortStaticElements();
+	sf::RenderWindow* window = spriteManager.GetMainWindow();
 
-	sf::Color background = sf::Color(71, 45, 60, 255);
-
-	while (window.isOpen()) {
+	while (window->isOpen()) {
 		sf::Event event;
 
 		deltaTime = clock.restart();
 
-		while (window.pollEvent(event)) {
+		while (window->pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
-				window.close();
+				window->close();
 			if (event.type == sf::Event::KeyPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+					exit(EXIT_SUCCESS);
 				HandleKeyPressed(&playerOne);
 			}
 			if (event.type == sf::Event::KeyReleased) {
 				HandleKeyReleased(&playerOne, event.key.code);
 			}
 		}
-
-		window.clear(background);
-		spriteManager.ClearEntities();
 		spriteManager.ClearWindow();
-
-		playerOne.Draw((float) deltaTime.asMilliseconds());
+		playerOne.Draw((float)deltaTime.asMilliseconds());
 		spriteManager.DrawAll();
-
-		window.display();
+		window = spriteManager.GetMainWindow();
 	}
 
 	return 0;

@@ -10,6 +10,15 @@ Sprite::Sprite(int index, float posX, float posY, bool flipH, bool flipV, bool f
 	_layer(layer)
 {}
 
+Sprite::Sprite() :
+	_index(0),
+	_posX(0),
+	_posY(0),
+	_flipH(false),
+	_flipV(false),
+	_flipD(false),
+	_layer(0)
+{}
 Sprite::~Sprite() {}
 
 void Sprite::setIndex(int index) { _index = index; }

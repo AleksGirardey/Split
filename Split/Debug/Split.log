@@ -1,0 +1,18 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (WorkshopSFMLProjet3.vcxproj, WorkshopSFML.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Animator.cpp
+  Chunk.cpp
+  Main.cpp
+  Player.cpp
+C:\Workspace\CPP\Split\Split\Player.cpp(85,49): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Workspace\CPP\Split\Split\Player.cpp(86,50): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Workspace\CPP\Split\Split\Player.cpp(87,47): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+  SpriteManager.cpp
+C:\Workspace\CPP\Split\Split\Player.cpp(88,49): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Workspace\CPP\Split\Split\SpriteManager.cpp(103,17): warning C4244:  '=': conversion from 'float' to 'int', possible loss of data
+C:\Workspace\CPP\Split\Split\SpriteManager.cpp(104,17): warning C4244:  '=': conversion from 'float' to 'int', possible loss of data
+C:\Workspace\CPP\Split\Split\SpriteManager.cpp(109,16): warning C4244:  '=': conversion from 'float' to 'int', possible loss of data
+  SpriteSheet.cpp
+  TileMap.cpp
+  Generating Code...
+C:\Workspace\CPP\Split\Split\SpriteManager.cpp(110,16): warning C4244:  '=': conversion from 'float' to 'int', possible loss of data
+  Split.vcxproj -> C:\Workspace\CPP\Split\Debug\Split.exe

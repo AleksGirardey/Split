@@ -11,12 +11,11 @@ const unsigned FLIPPED_D = 0x20000000;
 class SpriteSheet
 {
 private:
-	sf::RenderWindow* _window;
 	sf::Texture _texture;
 	sf::Sprite _sprite;
 public:
-	SpriteSheet(sf::RenderWindow* renderer, std::string texturePath);
+	SpriteSheet(std::string texturePath);
 	~SpriteSheet();
 
-	void DrawSprite(Sprite Sprite);
+	void DrawSprite(sf::RenderWindow* window, Sprite Sprite);
 };

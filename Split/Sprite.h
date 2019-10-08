@@ -11,6 +11,7 @@ private:
 	int _layer;
 public:
 	Sprite(int index, float posX, float posY, bool flipH, bool flipV, bool flipD, int layer);
+	Sprite();
 	~Sprite();
 
 	void setIndex(int index);

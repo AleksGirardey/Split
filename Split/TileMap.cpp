@@ -115,7 +115,7 @@ void TileMap::DrawMap() {
 			}
 
 			sprite = new Sprite(tileIndex - 1, posX, posY, flipH, flipV, flipD, layer);
-			_spriteManager->AddStaticElement(sprite);
+			_spriteManager->AddStaticElement(*sprite);
 		}
 	}
 }

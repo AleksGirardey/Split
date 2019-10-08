@@ -93,7 +93,7 @@ void Player::Draw(float deltaTime) {
 	_sprite->setFlipH(_left);
 
 	_sprite->setIndex(_animator->GetTile(_state, deltaTime));
-	_spriteManager->AddEntity(_sprite);
+	_spriteManager->AddPlayer(*_sprite);
 }
 
 void	Player::ClampX(Sprite* sprite) {

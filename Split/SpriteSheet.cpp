@@ -1,15 +1,13 @@
 #include "SpriteSheet.h"
 
-SpriteSheet::SpriteSheet(sf::RenderWindow* window, std::string texturePath) :
-	_window(window)
-{
+SpriteSheet::SpriteSheet(std::string texturePath) {
 	if (!_texture.loadFromFile(texturePath))
 		printf("[SpriteSheet] Cannot load image '%s'\n", texturePath.c_str());
 }
 
 SpriteSheet::~SpriteSheet() {}
 
-void SpriteSheet::DrawSprite(Sprite sprite)
+void SpriteSheet::DrawSprite(sf::RenderWindow* window, Sprite sprite)
 {
 	int spriteGridX = sprite.getIndex() % SPRITESHEET_CELL_COUNT_PER_ROW;
 	int spriteGridY = (int)floor(sprite.getIndex() / SPRITESHEET_CELL_COUNT_PER_ROW);
@@ -42,5 +40,5 @@ void SpriteSheet::DrawSprite(Sprite sprite)
 	_sprite.setPosition(sf::Vector2f((offset * SCALE) + sprite.getPosX(), (offset * SCALE) + sprite.getPosY()));
 	_sprite.setScale(sf::Vector2f(SCALE, SCALE));
 	_sprite.setRotation(rotation);
-	_window->draw(_sprite);
+	window->draw(_sprite);
 }
