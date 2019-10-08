@@ -1,19 +1,7 @@
-﻿  Animator.cpp
-  Generating Code...
-  Compiling...
-  TileMap.cpp
-  SpriteSheet.cpp
-  SpriteManager.cpp
-  Player.cpp
-d:\projectc++\split\split\player.cpp(89): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\projectc++\split\split\player.cpp(90): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\projectc++\split\split\player.cpp(97): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Physics.cpp
+﻿  Physics.cpp
 d:\projectc++\split\split\physics.cpp(31): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
 d:\projectc++\split\split\physics.cpp(32): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 d:\projectc++\split\split\physics.cpp(36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 d:\projectc++\split\split\physics.cpp(52): warning C4018: '<': signed/unsigned mismatch
-  Main.cpp
-  Generating Code...
   Split.vcxproj -> D:\ProjectC++\Split\TristanDebug\Split.exe
   Split.vcxproj -> D:\ProjectC++\Split\TristanDebug\Split.pdb (Partial PDB)

@@ -50,8 +50,8 @@ bool Physics::MoveY(Sprite* sprite, float speed) {
 
 bool Physics::CheckObstacle(float posX, float posY) {
 	for (int i = 0; i < obstacleList.size();i++) {
-		bool xCheck = posX < obstacleList[i]->posX + obstacleList[i]->sizeX && posX >= obstacleList[i]->posX;
-		xCheck = xCheck ||  posX+ obstacleList[i]->sizeX < obstacleList[i]->posX + obstacleList[i]->sizeX && posX+ obstacleList[i]->sizeX >= obstacleList[i]->posX;
+		bool xCheck = posX+5 < obstacleList[i]->posX + obstacleList[i]->sizeX && posX+5 >= obstacleList[i]->posX;
+		xCheck = xCheck ||  posX+ obstacleList[i]->sizeX-5 < obstacleList[i]->posX + obstacleList[i]->sizeX && posX+ obstacleList[i]->sizeX - 5 >= obstacleList[i]->posX;
 		bool yCheck = posY >= obstacleList[i]->posY && posY < obstacleList[i]->posY + obstacleList[i]->sizeY;
 		yCheck = yCheck || posY + obstacleList[i]->sizeY >= obstacleList[i]->posY && posY + obstacleList[i]->sizeY < obstacleList[i]->posY + obstacleList[i]->sizeY;
 		if (xCheck && yCheck) {
