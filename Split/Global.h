@@ -13,7 +13,7 @@
 
 #define CHUNK_SIZE 4
 #define PLAYER_SPEED 0.1
-#define PLAYER_JUMP 60
-#define PLAYER_MASS 0.5
+#define PLAYER_JUMP 90
+#define PLAYER_MASS 0.2
 
 #endif // !GLOBAL
