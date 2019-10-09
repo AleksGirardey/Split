@@ -29,7 +29,9 @@ void Physics::AddForce(float strenght) {
 bool Physics::UpdateGravity(Sprite* sprite, float deltaTime) {
 	if (_strenght > 0) {
 		_strenght -= (PLAYER_MASS*deltaTime);
-		MoveY(sprite, -PLAYER_MASS*deltaTime);
+		if (MoveY(sprite, -PLAYER_MASS*deltaTime)) {
+			_strenght = 0;
+		}
 	}
 	else {
 		MoveY(sprite, PLAYER_MASS*deltaTime);
