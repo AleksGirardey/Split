@@ -30,7 +30,21 @@ void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
 
 int main(int argc, char** argv) {
 	sf::Time deltaTime;
-	
+	sf::RenderWindow* windowMenu = new sf::RenderWindow(
+		sf::VideoMode(600, 600),
+		"Menu",
+		sf::Style::Default);
+	sf::Color colorBG(71, 45, 60, 255);
+	while (windowMenu->isOpen()) {
+		sf::Event event;
+
+		while (windowMenu->pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				windowMenu->close();
+		}
+		windowMenu->clear(colorBG);
+		windowMenu->display();
+	}
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 
 	std::string tileMapPath = "./Assets/chunked.csv";
@@ -50,6 +64,7 @@ int main(int argc, char** argv) {
 	spriteManager.SortStaticElements();
 	sf::RenderWindow* window = spriteManager.GetMainWindow();
 
+	
 	while (window->isOpen()) {
 		sf::Event event;
 		//sf::Joystick::update();
