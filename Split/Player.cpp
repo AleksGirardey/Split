@@ -108,6 +108,10 @@ void Player::Draw(float deltaTime) {
 
 	_sprite->setIndex(_animator->GetTile(_state, deltaTime));
 	_spriteManager->AddPlayer(*_sprite);
+
+	if (!_physics->CheckTrigger(_sprite->getPosX(),_sprite->getPosY())) {
+		GoSpawn();
+	}
 }
 
 void	Player::ClampX(Sprite* sprite) {

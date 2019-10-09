@@ -115,7 +115,9 @@ void TileMap::DrawMap(Physics* physic) {
 			}
 			if (tileIndex == 417) {
 				physic->AddObstacle(posX, posY, SPRITESHEET_CELL_SIZE * SCALE, SPRITESHEET_CELL_SIZE * SCALE);
-				tileIndex;
+			}
+			if (tileIndex == 166) {
+				physic->AddTrap(posX, posY, SPRITESHEET_CELL_SIZE * SCALE, SPRITESHEET_CELL_SIZE * SCALE);
 			}
 			sprite = new Sprite(tileIndex - 1, posX, posY, flipH, flipV, flipD, layer);
 			_spriteManager->AddStaticElement(*sprite);
