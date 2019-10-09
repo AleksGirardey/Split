@@ -99,7 +99,7 @@ void Player::Draw(float deltaTime) {
 		}
 	}
 	 _physics->UpdateGravity(_sprite, deltaTime);
-	 
+
 	//Clamp
 	ClampX(_sprite);
 	ClampY(_sprite);
@@ -120,4 +120,9 @@ void 	Player::ClampY(Sprite* sprite) {
 	if (sprite->getPosY() < 0) sprite->setPosY(0);
 	else if (sprite->getPosY() > (float)((SCREEN_HEIGHT - 1) * SPRITESHEET_CELL_SIZE * SCALE))
 		sprite->setPosY((SCREEN_HEIGHT - 1) * SPRITESHEET_CELL_SIZE * SCALE);
+}
+
+void Player::GoSpawn() {
+	_sprite->setPosX(0);
+	_sprite->setPosY(0);
 }

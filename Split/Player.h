@@ -45,5 +45,7 @@ public:
 	void goingDown();
 	void idle(Movements);
 
+	void GoSpawn();
+
 	void Draw(float deltaTime);
 };

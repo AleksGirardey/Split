@@ -69,6 +69,7 @@ void SpriteManager::DrawAll() {
 			_chunks[i][j].Draw();
 		}
 	}
+	chunkSizeY = 1;
 }
 
 void SpriteManager::ClearWindow() {
