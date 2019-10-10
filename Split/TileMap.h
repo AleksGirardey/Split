@@ -19,5 +19,6 @@ public:
 	~TileMap();
 
 	void LoadFromCSV(std::string path);
+	void DrawMap();
 	void DrawMap(Physics* physic);
 };

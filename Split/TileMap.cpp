@@ -80,6 +80,43 @@ void TileMap::LoadFromCSV(std::string path) {
 
 	stream.close();
 }
+void TileMap::DrawMap() {
+	Sprite* sprite;
+	int tileIndex = 0;
+	float posX = 0;
+	float posY = 0;
+	unsigned rawIndex = 0;
+	bool flipH = false;
+	bool flipV = false;
+	bool flipD = false;
+	int layer = 1;
+
+	for (int i = 0; i < _height; ++i) {
+		for (int j = 0; j < _width; ++j) {
+			layer = 1;
+			rawIndex = _map[i][j];
+			flipH = rawIndex & FLIPPED_H;
+			flipV = rawIndex & FLIPPED_V;
+			flipD = rawIndex & FLIPPED_D;
+			rawIndex &= ~(FLIPPED_H | FLIPPED_V | FLIPPED_D);
+			tileIndex = (int)rawIndex;
+
+			posX = (float)(j * SPRITESHEET_CELL_SIZE * SCALE);
+			posY = (float)(i * SPRITESHEET_CELL_SIZE * SCALE);
+
+			for (std::list<int>::iterator it = _layerZero.begin(); it != _layerZero.end(); it++) {
+				if ((tileIndex - 1) == *it)
+					layer = 0;
+			}
+			for (std::list<int>::iterator it = _layerTwo.begin(); it != _layerTwo.end(); it++) {
+				if ((tileIndex - 1) == *it)
+					layer = 2;
+			}
+			sprite = new Sprite(tileIndex - 1, posX, posY, flipH, flipV, flipD, layer);
+			_spriteManager->AddStaticElement(*sprite);
+		}
+	}
+}
 
 void TileMap::DrawMap(Physics* physic) {
 	Sprite* sprite;

@@ -30,6 +30,14 @@ void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
 
 int main(int argc, char** argv) {
 	sf::Time deltaTime;
+	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
+
+	//MENU
+	/*std::string tileMapPath = "./Assets/Menu.csv";
+	SpriteManager spriteManager(spritesheet);
+	TileMap tileMap(&spriteManager);
+	tileMap.LoadFromCSV(tileMapPath);
+	tileMap.DrawMap();
 	sf::RenderWindow* windowMenu = new sf::RenderWindow(
 		sf::VideoMode(600, 600),
 		"Menu",
@@ -42,10 +50,9 @@ int main(int argc, char** argv) {
 			if (event.type == sf::Event::Closed)
 				windowMenu->close();
 		}
-		windowMenu->clear(colorBG);
+		spriteManager.DrawAll();
 		windowMenu->display();
-	}
-	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
+	}*/
 
 	std::string tileMapPath = "./Assets/chunked.csv";
 
