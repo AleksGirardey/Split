@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
 	playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 	playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
 
+	
 	while (window->isOpen()) {
 		sf::Event event;
 		//sf::Joystick::update();
