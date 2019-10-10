@@ -26,10 +26,12 @@ Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physic
 	_animator(animator),
 	_physics(physics)
 {
+	float newPosY = (float)(posY * SPRITESHEET_CELL_SIZE * Global::Scale);
+
 	_sprite = new Sprite(
 		0,
 		(float)(posX * SPRITESHEET_CELL_SIZE * Global::Scale),
-		(float)(posY * SPRITESHEET_CELL_SIZE * Global::Scale),
+		newPosY - 1.f,
 		false,
 		false,
 		false,
