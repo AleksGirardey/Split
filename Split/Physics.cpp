@@ -37,12 +37,12 @@ void Physics::AddForce(float strenght) {
 bool Physics::UpdateGravity(Sprite* sprite, float deltaTime) {
 	if (_strenght > 0) {
 		_strenght -= (PLAYER_MASS*deltaTime);
-		if (MoveY(sprite, -PLAYER_MASS*deltaTime)) {
+		if (MoveY(sprite, -PLAYER_MASS*deltaTime-1.5f)) {
 			_strenght = 0;
 		}
 	}
 	else {
-		MoveY(sprite, PLAYER_MASS*deltaTime);
+		MoveY(sprite, PLAYER_MASS*deltaTime+1.5f);
 	}
 	return false;
 }
@@ -51,14 +51,19 @@ void Physics::MoveX(Sprite* sprite, float speed) {
 		sprite->setPosX(sprite->getPosX() + speed);
 }
 bool Physics::MoveY(Sprite* sprite, float speed) {
+	int diviser = 10 * PLAYER_MASS;
 	if (CheckObstacle(sprite->getPosX(), sprite->getPosY() + speed)) {
-		sprite->setPosY(sprite->getPosY() + speed);
-		return false;
+		for (int i = 1; i <= diviser; i++) {
+			if (CheckObstacle(sprite->getPosX(), sprite->getPosY() + (speed / diviser))) {
+				sprite->setPosY(sprite->getPosY() + (speed / diviser));
+				return false;
+			}
+		}
 	}
 	else {
-		for (int i = 1; i < 10;i++) {
-			if (CheckObstacle(sprite->getPosX(), sprite->getPosY() + (speed/10))) {
-				sprite->setPosY(sprite->getPosY() + (speed / 10));
+		for (int i = 1; i <= diviser;i++) {
+			if (CheckObstacle(sprite->getPosX(), sprite->getPosY() + (speed/ diviser))) {
+				sprite->setPosY(sprite->getPosY() + (speed /diviser));
 				return false;
 			}
 		}
