@@ -46,6 +46,8 @@ void Chunk::Draw() {
 	_window->display();
 }
 
-void Chunk::Clear() {}
+void Chunk::Clear() {
+	_sprites.clear();
+}
 
 sf::RenderWindow* Chunk::GetWindow() { return _window; }

@@ -109,8 +109,8 @@ void Player::Draw(float deltaTime) {
 	 _physics->UpdateGravity(_sprite, deltaTime);
 
 	//Clamp
-	ClampX(_sprite);
-	ClampY(_sprite);
+	//ClampX(_sprite);
+	//ClampY(_sprite);
 
 	_sprite->setFlipH(_left);
 
