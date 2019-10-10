@@ -1,4 +1,5 @@
 #include "SpriteManager.h"
+#include "LevelManager.h"
 #include <random>
 #include "Pair.h"
 
@@ -37,19 +38,27 @@ void SpriteManager::Load(Level* level) {
 				staticListPair[index].GetKey() * (windowSize + 30),
 				staticListPair[index].GetValue() * (windowSize + 30)));
 			_chunks[i][j] = Chunk(window, _spritesheet);
-			if (i == floor(level->SpawnPoint->GetKey() / level->ChunkSize)
-				&& j == floor(level->SpawnPoint->GetValue() / level->ChunkSize)) {
-				_mainChunk = _chunks[i][j];
-				MainChunkX = i;
-				MainChunkY = j;
+			if (!LevelManager::menuActive) {
+				if (i == floor(level->SpawnPoint->GetKey() / level->ChunkSize)
+					&& j == floor(level->SpawnPoint->GetValue() / level->ChunkSize)) {
+					_mainChunk = _chunks[i][j];
+					MainChunkX = i;
+					MainChunkY = j;
+				}
 			}
+			else {
+				MainChunkX = 0;
+				MainChunkY = 0;
+				_mainChunk = _chunks[MainChunkX][MainChunkY];
+			}
+			
 
 			staticListPair.erase(staticListPair.begin() + index);
 			if (staticListPair.size() != 0)
 				index = rand() % staticListPair.size();			
 		}
 	}
-
+	
 	std::list<Sprite*> levelSprites = level->Load();
 
 	_staticElements = std::list<Sprite*>(levelSprites.begin(), levelSprites.end());
@@ -104,9 +113,14 @@ void SpriteManager::DistributeSprites() {
 
 		_chunks[chunkX][chunkY].AddSprite(**it);
 	}
-
-	chunkX = (int) floor(_player->getPosX() / chunkSize);
-	chunkY = (int) floor(_player->getPosY() / chunkSize);
+	if (!LevelManager::menuActive) {
+		chunkX = (int) floor(_player->getPosX() / chunkSize);
+		chunkY = (int) floor(_player->getPosY() / chunkSize);
+	}
+	else {
+		chunkX = 0;
+		chunkY = 0;
+	}
 	_chunks[chunkX][chunkY].AddPlayer(_player);
 	MainChunkX = chunkX;
 	MainChunkY = chunkY;
