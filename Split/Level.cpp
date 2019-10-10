@@ -77,7 +77,7 @@ void Level::CheckTile(unsigned rawIndex, int posX, int posY) {
 	index &= ~(FLIPPED_H | FLIPPED_V | FLIPPED_D);
 	int tileIndex = (int) index;
 
-	if (tileIndex - 1 == 416 || tileIndex - 1 == TRAPINDEX) {
+	if (tileIndex - 1 == 416 || tileIndex - 1 == 544 || tileIndex - 1 == 512 || tileIndex - 1 == TRAPINDEX) {
 		Obstacle* obstacle = new Obstacle();
 
 		obstacle->posX = (float)(posX * SPRITESHEET_CELL_SIZE * Scale);
@@ -85,7 +85,7 @@ void Level::CheckTile(unsigned rawIndex, int posX, int posY) {
 		obstacle->sizeX = SPRITESHEET_CELL_SIZE * Scale;
 		obstacle->sizeY = SPRITESHEET_CELL_SIZE * Scale;
 
-		if (tileIndex - 1 == 416)
+		if (tileIndex - 1 == 416 || tileIndex - 1 == 544 || tileIndex - 1 == 512)
 			ObstacleList.push_back(obstacle);
 		else
 			TrapList.push_back(obstacle);
