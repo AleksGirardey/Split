@@ -35,17 +35,22 @@ int main(int argc, char** argv) {
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 	SpriteManager spriteManager(spritesheet);
 	LevelManager levelManager;
-	
+	LevelManager::menuActive = true;
 	spriteManager.Load(levelManager.CurrentLevel);
 
-	int spawnX = levelManager.CurrentLevel->SpawnPoint->GetKey();
-//		+ (spriteManager.MainChunkX * SPRITESHEET_CELL_SIZE * Global::Scale);
-	int spawnY = levelManager.CurrentLevel->SpawnPoint->GetValue();
-//		+ (spriteManager.MainChunkY * SPRITESHEET_CELL_SIZE * Global::Scale);
+	
 
 	Physics physics;
 	Animator animPlayerOne("242", "243,244", "245,246", "247", 0.5f);
-	Player playerOne(&spriteManager, &animPlayerOne, &physics,spawnX,spawnY);
+	Player playerOne(&spriteManager, &animPlayerOne, &physics);
+
+	if (!LevelManager::menuActive) {
+		int spawnX = levelManager.CurrentLevel->SpawnPoint->GetKey();
+		//		+ (spriteManager.MainChunkX * SPRITESHEET_CELL_SIZE * Global::Scale);
+		int spawnY = levelManager.CurrentLevel->SpawnPoint->GetValue();
+		//		+ (spriteManager.MainChunkY * SPRITESHEET_CELL_SIZE * Global::Scale);
+		playerOne = Player(&spriteManager, &animPlayerOne, &physics, spawnX, spawnY);
+	}
 
 	spriteManager.SortStaticElements();
 	sf::RenderWindow* window = spriteManager.GetMainWindow();

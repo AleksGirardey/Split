@@ -10,6 +10,7 @@ typedef struct levelParams {
 
 class LevelManager {
 private:
+	static LevelParams Menu;
 	static LevelParams LevelOne;
 	static LevelParams LevelTwo;
 	static LevelParams LevelThree;
@@ -21,4 +22,5 @@ public:
 	~LevelManager();
 
 	Level* CurrentLevel;
+	static bool menuActive;
 };
