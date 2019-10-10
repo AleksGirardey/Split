@@ -56,10 +56,7 @@ void SpriteManager::Load(Level* level) {
 }
 
 SpriteManager::~SpriteManager() {
-	for (int i = Global::ChunkSize - 1; i >= 0; --i) {
-		delete[] _chunks[i];
-	}
-	delete[] _chunks;
+	DeleteChunks();
 }
 
 void SpriteManager::AddPlayer(Sprite* sprite) {
@@ -118,4 +115,27 @@ void SpriteManager::DistributeSprites() {
 
 sf::RenderWindow* SpriteManager::GetMainWindow() {
 	return _mainChunk.GetWindow();
+}
+
+void SpriteManager::CloseWindows() {
+	int size = Global::ChunkCount;
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			_chunks[i][j].GetWindow()->close();
+		}
+	}
+}
+
+void SpriteManager::DeleteChunks() {
+	for (int i = (Global::ChunkCount / 2) - 1; i >= 0; --i) {
+		delete[] _chunks[i];
+	}
+	delete[] _chunks;
+}
+
+void SpriteManager::NextLevel() {
+	CloseWindows();
+	DeleteChunks();
+	_staticElements.clear();
+	_sortedList.clear();
 }

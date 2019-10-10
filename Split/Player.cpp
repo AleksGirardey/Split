@@ -113,8 +113,8 @@ void Player::Draw(float deltaTime) {
 	 _physics->UpdateGravity(_sprite, deltaTime);
 
 	//Clamp
-	//ClampX(_sprite);
-	//ClampY(_sprite);
+	ClampX(_sprite);
+	ClampY(_sprite);
 
 	_sprite->setFlipH(_left);
 
@@ -127,20 +127,21 @@ void Player::Draw(float deltaTime) {
 	}
 
 	if (_physics->CheckExit(_sprite->getPosX(), _sprite->getPosY())) {
+		std::cout << "Exit triggered" << std::endl;
 		Global::Win = true;
 	}
 }
 
 void	Player::ClampX(Sprite* sprite) {
 	if (sprite->getPosX() < 0) sprite->setPosX(0);
-	else if (sprite->getPosX() > (float)((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale))
-		sprite->setPosX((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
+	else if (sprite->getPosX() > (float)(Global::ChunkCount * Global::ChunkSize * SPRITESHEET_CELL_SIZE * Global::Scale))
+		sprite->setPosX(Global::ChunkCount * (Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
 }
 
 void 	Player::ClampY(Sprite* sprite) {
 	if (sprite->getPosY() < 0) sprite->setPosY(0);
-	else if (sprite->getPosY() > (float)((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale))
-		sprite->setPosY((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
+	else if (sprite->getPosY() > (float)(Global::ChunkCount * Global::ChunkSize * SPRITESHEET_CELL_SIZE * Global::Scale))
+		sprite->setPosY(Global::ChunkCount * (Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
 }
 
 void Player::SetSpawn(Pair* pair) { _spawnPoint = pair; }

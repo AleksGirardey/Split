@@ -56,6 +56,7 @@ int main(int argc, char** argv) {
 	sf::RenderWindow* window = spriteManager.GetMainWindow();
 	playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 	playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
+	playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
 
 	while (window->isOpen()) {
 		sf::Event event;
@@ -102,9 +103,15 @@ int main(int argc, char** argv) {
 			
 		}
 
-		if (Global::Win) {
-			if (levelManager.CurrentLevel == NULL) exit(EXIT_SUCCESS);
+		spriteManager.ClearWindow();
+		playerOne.Draw((float)deltaTime.asMilliseconds());
+		spriteManager.DrawAll();
+		window = spriteManager.GetMainWindow();
 
+		if (Global::Win) {
+			if (levelManager.CurrentLevel->NextLevel == NULL) exit(EXIT_SUCCESS);
+
+			spriteManager.NextLevel();
 			levelManager.CurrentLevel = levelManager.CurrentLevel->NextLevel;
 			spriteManager.Load(levelManager.CurrentLevel);
 			window = spriteManager.GetMainWindow();
@@ -114,11 +121,6 @@ int main(int argc, char** argv) {
 			playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
 			Global::Win = false;
 		}
-
-		spriteManager.ClearWindow();
-		playerOne.Draw((float)deltaTime.asMilliseconds());
-		spriteManager.DrawAll();
-		window = spriteManager.GetMainWindow();
 	}
 
 	return 0;

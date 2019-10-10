@@ -17,6 +17,8 @@ private:
 	std::list<Sprite*> _sortedList;
 
 	void Sort();
+	void CloseWindows();
+	void DeleteChunks();
 public:
 	SpriteManager(SpriteSheet*);
 	~SpriteManager();
@@ -31,5 +33,6 @@ public:
 	void DistributeSprites();
 	sf::RenderWindow* GetMainWindow();
 
+	void NextLevel();
 	void Load(Level* level);
 };
