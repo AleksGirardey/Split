@@ -1,13 +1,20 @@
-#include "TileMap.h"
+#include "Level.h"
+#include "Global.h"
+#include <string>
 
-TileMap::TileMap(SpriteManager* spriteSheet) :
-	_spriteManager(spriteSheet),
-	_width(SCREEN_WIDTH),
-	_height(SCREEN_HEIGHT)
+Level::Level(std::string path, int chunkSize, int chunkCount, int scale, Level* nextLevel) :
+	_width(chunkCount * chunkSize),
+	_height(chunkCount* chunkSize),
+	ChunkSize(chunkSize),
+	ChunkCount(chunkCount),
+	Scale(scale),
+	NextLevel(nextLevel)
 {
-	// Insertion des tiles concerné par le layer 0 et 2
+	ObstacleList = std::vector<Obstacle*>();
+	TrapList = std::vector<Obstacle*>();
 	_layerZero = std::list<int>();
 	_layerTwo = std::list<int>();
+
 
 	_layerZero.push_back(0);
 	_layerZero.push_back(1);
@@ -45,22 +52,58 @@ TileMap::TileMap(SpriteManager* spriteSheet) :
 		for (int j = 0; j < _width; j++)
 			_map[i][j] = 35l;
 	}
+
+	LoadFromCSV(path);
 }
 
-TileMap::~TileMap() {
+Level::~Level() {
+	delete SpawnPoint;
+	delete ExitPoint;
+	delete NextLevel;
+
+	for (std::vector<Obstacle*>::iterator it = ObstacleList.begin(); it != ObstacleList.end(); it++)
+		delete (*it);
+	for (std::vector<Obstacle*>::iterator it = TrapList.begin(); it != TrapList.end(); it++)
+		delete (*it);
+
 	for (int i = _height - 1; i >= 0; --i) {
 		delete[] _map[i];
 	}
 	delete[] _map;
 }
 
-void TileMap::LoadFromCSV(std::string path) {
+void Level::CheckTile(unsigned rawIndex, int posX, int posY) {
+	unsigned index = rawIndex;
+	index &= ~(FLIPPED_H | FLIPPED_V | FLIPPED_D);
+	int tileIndex = (int) index;
+
+	if (tileIndex - 1 == 417 || tileIndex - 1 == TRAPINDEX) {
+		Obstacle* obstacle = new Obstacle();
+
+		obstacle->posX = (float)posX;
+		obstacle->posY = (float)posY;
+		obstacle->sizeX = SPRITESHEET_CELL_SIZE * Scale;
+		obstacle->sizeY = SPRITESHEET_CELL_SIZE * Scale;
+
+		if (tileIndex - 1 == 417)
+			ObstacleList.push_back(obstacle);
+		else
+			TrapList.push_back(obstacle);
+	} else if (tileIndex - 1 == SPAWNINDEX) {
+		SpawnPoint = new Pair(posX, posY);
+	} else if (tileIndex - 1 == EXITINDEX) {
+		ExitPoint = new Pair(posX, posY);
+	}
+}
+
+void Level::LoadFromCSV(std::string path) {
 	std::ifstream stream(path);
 	std::string line = "";
 	std::string strTileIndex = "";
 	int endPos = 0;
 	int tileX = 0;
 	int tileY = 0;
+
 	if (stream.is_open()) {
 		while (std::getline(stream, line)) {
 			tileX = 0;
@@ -68,11 +111,12 @@ void TileMap::LoadFromCSV(std::string path) {
 				endPos = line.find(",");
 				strTileIndex = line.substr(0, endPos);
 				line = line.substr(endPos + 1);
-				//std::cout << "TileIndex : " << strTileIndex << std::endl;
 				_map[tileY][tileX] = std::stoul(strTileIndex);
+
+				CheckTile(std::stoul(strTileIndex), tileX, tileY);
+
 				tileX++;
 			}
-			//_map[tileY][tileX] = std::stol(line);
 			tileY++;
 			endPos = 0;
 		}
@@ -81,8 +125,8 @@ void TileMap::LoadFromCSV(std::string path) {
 	stream.close();
 }
 
-void TileMap::DrawMap(Physics* physic) {
-	Sprite* sprite;
+std::list<Sprite*> Level::Load() {
+	std::list<Sprite*> spriteList = std::list<Sprite*>();
 	int tileIndex = 0;
 	float posX = 0;
 	float posY = 0;
@@ -101,9 +145,9 @@ void TileMap::DrawMap(Physics* physic) {
 			flipD = rawIndex & FLIPPED_D;
 			rawIndex &= ~(FLIPPED_H | FLIPPED_V | FLIPPED_D);
 			tileIndex = (int)rawIndex;
-			
-			posX = (float)(j * SPRITESHEET_CELL_SIZE * SCALE);
-			posY = (float)(i * SPRITESHEET_CELL_SIZE * SCALE);
+
+			posX = (float)(j * SPRITESHEET_CELL_SIZE * Scale);
+			posY = (float)(i * SPRITESHEET_CELL_SIZE * Scale);
 
 			for (std::list<int>::iterator it = _layerZero.begin(); it != _layerZero.end(); it++) {
 				if ((tileIndex - 1) == *it)
@@ -113,12 +157,9 @@ void TileMap::DrawMap(Physics* physic) {
 				if ((tileIndex - 1) == *it)
 					layer = 2;
 			}
-			if (tileIndex == 417) {
-				physic->AddObstacle(posX, posY, SPRITESHEET_CELL_SIZE * SCALE, SPRITESHEET_CELL_SIZE * SCALE);
-				tileIndex;
-			}
-			sprite = new Sprite(tileIndex - 1, posX, posY, flipH, flipV, flipD, layer);
-			_spriteManager->AddStaticElement(*sprite);
+			spriteList.push_back(new Sprite(tileIndex - 1, posX, posY, flipH, flipV, flipD, layer));
 		}
 	}
+
+	return spriteList;
 }

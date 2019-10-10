@@ -37,8 +37,8 @@ void SpriteSheet::DrawSprite(sf::RenderWindow* window, Sprite sprite)
 	}
 	_sprite.setTextureRect(srcRect);
 
-	_sprite.setPosition(sf::Vector2f((offset * SCALE) + sprite.getPosX(), (offset * SCALE) + sprite.getPosY()));
-	_sprite.setScale(sf::Vector2f(SCALE, SCALE));
+	_sprite.setPosition(sf::Vector2f((offset * Global::Scale) + sprite.getPosX(), (offset * Global::Scale) + sprite.getPosY()));
+	_sprite.setScale(sf::Vector2f(Global::Scale, Global::Scale));
 	_sprite.setRotation(rotation);
 	window->draw(_sprite);
 }

@@ -12,6 +12,7 @@ typedef struct obstacle{
 class Physics
 {
 	std::vector<Obstacle*> obstacleList;
+	std::vector<Obstacle*> trapList;
 	float _strenght = 0;
 public:
 	Physics();
@@ -23,5 +24,8 @@ public:
 	bool MoveY(Sprite* sprite, float speed);
 	bool CheckObstacle(float posX, float posY);
 	float GetVelocity();
+
+	void SetObstacles(std::vector<Obstacle*> list);
+	void SetTraps(std::vector<Obstacle*> list);
 };
 

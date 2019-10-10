@@ -2,10 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include "Global.h"
 #include "SpriteManager.h"
-#include "TileMap.h"
 #include "Animator.h"
 #include "Player.h"
 #include "Physics.h"
+#include "LevelManager.h"
 
 void HandleKeyPressed(Player* player) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -30,25 +30,27 @@ void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
 
 int main(int argc, char** argv) {
 	sf::Time deltaTime;
+	sf::Clock clock;
 	
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
-
-	std::string tileMapPath = "./Assets/chunked.csv";
-
 	SpriteManager spriteManager(spritesheet);
-	TileMap tileMap(&spriteManager);
+	LevelManager levelManager;
+	
+	spriteManager.Load(levelManager.CurrentLevel);
 
-	tileMap.LoadFromCSV(tileMapPath);
-
-	sf::Clock clock;
+	int spawnX = levelManager.CurrentLevel->SpawnPoint->GetKey();
+//		+ (spriteManager.MainChunkX * SPRITESHEET_CELL_SIZE * Global::Scale);
+	int spawnY = levelManager.CurrentLevel->SpawnPoint->GetValue();
+//		+ (spriteManager.MainChunkY * SPRITESHEET_CELL_SIZE * Global::Scale);
 
 	Physics physics;
 	Animator animPlayerOne("242", "243,244", "245,246", "247", 0.5f);
-	Player playerOne(&spriteManager, &animPlayerOne, &physics);
+	Player playerOne(&spriteManager, &animPlayerOne, &physics,spawnX,spawnY);
 
-	tileMap.DrawMap(&physics);
 	spriteManager.SortStaticElements();
 	sf::RenderWindow* window = spriteManager.GetMainWindow();
+	playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
+	playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
 
 	while (window->isOpen()) {
 		sf::Event event;

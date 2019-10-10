@@ -45,5 +45,7 @@ public:
 	void goingDown();
 	void idle(Movements);
 
+	void SetObstacles(std::vector<Obstacle*>);
+	void SetTraps(std::vector<Obstacle*>);
 	void Draw(float deltaTime);
 };

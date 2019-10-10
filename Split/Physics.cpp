@@ -65,5 +65,10 @@ float Physics::GetVelocity() {
 	return _strenght;
 }
 
+void Physics::SetObstacles(std::vector<Obstacle*> list) {
+	obstacleList = list;
+}
 
-
+void Physics::SetTraps(std::vector<Obstacle*> list) {
+	trapList = list;
+}

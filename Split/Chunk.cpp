@@ -1,4 +1,6 @@
 #include "Chunk.h"
+#include "SpriteManager.h"
+#include <iostream>
 
 Chunk::Chunk(sf::RenderWindow* window, SpriteSheet* spritesheet) :
 	_window(window),
@@ -17,13 +19,13 @@ void Chunk::AddSprite(Sprite sprite) {
 	_sprites.push_back(sprite);
 }
 
-void Chunk::AddPlayer(Sprite sprite) {
-	_sprites.push_back(sprite);
+void Chunk::AddPlayer(Sprite* sprite) {
+	_sprites.push_back(*sprite);
 	_window->requestFocus();
 }
 
 void Chunk::Draw() {
-	float chunkSize = CHUNK_SIZE * SPRITESHEET_CELL_SIZE * SCALE;
+	float chunkSize = Global::ChunkSize * SPRITESHEET_CELL_SIZE * Global::Scale;
 	float chunkPosX;
 	float chunkPosY;
 
@@ -44,9 +46,6 @@ void Chunk::Draw() {
 	_window->display();
 }
 
-void Chunk::Clear() {
-	if (!_sprites.empty())
-		_sprites.clear();
-}
+void Chunk::Clear() {}
 
 sf::RenderWindow* Chunk::GetWindow() { return _window; }

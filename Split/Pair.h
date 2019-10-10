@@ -6,6 +6,7 @@ private:
 	int _value;
 public:
 	Pair(int key, int value);
+	Pair();
 	~Pair();
 
 	int GetKey();

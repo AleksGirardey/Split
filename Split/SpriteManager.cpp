@@ -2,70 +2,75 @@
 #include <random>
 #include "Pair.h"
 
-SpriteManager::SpriteManager(SpriteSheet* spritesheet) {
-	_staticElements = std::list<Sprite>();
-	_sortedList = std::list<Sprite>();
-	int chunkSizeX = SCREEN_WIDTH / CHUNK_SIZE;
-	int chunkSizeY = SCREEN_HEIGHT / CHUNK_SIZE;
-	int windowWidth = CHUNK_SIZE * SPRITESHEET_CELL_SIZE * SCALE;
-	int windowHeight = CHUNK_SIZE * SPRITESHEET_CELL_SIZE * SCALE;
+SpriteManager::SpriteManager(SpriteSheet* spritesheet) :
+	_spritesheet(spritesheet)
+{
+	_staticElements = std::list<Sprite*>();
+	_sortedList = std::list<Sprite*>();
+}
+
+void SpriteManager::Load(Level* level) {
+	int windowSize = level->ChunkSize * SPRITESHEET_CELL_SIZE * level->Scale;
 	sf::RenderWindow* window;
 	std::vector<Pair> staticListPair = std::vector<Pair>();
 
-	for (int i = 0; i < chunkSizeX; i++) {
-		for (int j = 0; j < chunkSizeY; j++) {
+	Global::Scale = level->Scale;
+	Global::ChunkSize = level->ChunkSize;
+	Global::ChunkCount = level->ChunkCount;
+
+	for (int i = 0; i < level->ChunkCount; i++) {
+		for (int j = 0; j < level->ChunkCount; j++) {
 			staticListPair.push_back(Pair(i, j));
 		}
 	}
 	int index = 0;
 
-	_chunks = new Chunk *[chunkSizeX + 1];
-	for (int i = 0; i < chunkSizeX; i++) {
-		_chunks[i] = new Chunk[chunkSizeY + 1];
-		for (int j = 0; j < chunkSizeY; j++) {
+	_chunks = new Chunk *[level->ChunkCount];
+	for (int i = 0; i < level->ChunkCount; i++) {
+		_chunks[i] = new Chunk[level->ChunkCount];
+		for (int j = 0; j < level->ChunkCount; j++) {
 			window = new sf::RenderWindow(
-				sf::VideoMode(windowWidth, windowHeight),
+				sf::VideoMode(windowSize, windowSize),
 				"SFML",
 				sf::Style::None);
 			window->setPosition(sf::Vector2i(
-				staticListPair[index].GetKey() * (windowWidth + 30),
-				staticListPair[index].GetValue() * (windowHeight + 30)));
-			_chunks[i][j] = Chunk(window, spritesheet);
-			if (i == 0 && j == 0)
+				staticListPair[index].GetKey() * (windowSize + 30),
+				staticListPair[index].GetValue() * (windowSize + 30)));
+			_chunks[i][j] = Chunk(window, _spritesheet);
+			if (i == floor(level->SpawnPoint->GetKey() / level->ChunkSize)
+				&& j == floor(level->SpawnPoint->GetValue() / level->ChunkSize)) {
 				_mainChunk = _chunks[i][j];
+				MainChunkX = i;
+				MainChunkY = j;
+			}
 
 			staticListPair.erase(staticListPair.begin() + index);
 			if (staticListPair.size() != 0)
 				index = rand() % staticListPair.size();			
 		}
 	}
+
+	std::list<Sprite*> levelSprites = level->Load();
+
+	_staticElements = std::list<Sprite*>(levelSprites.begin(), levelSprites.end());
 }
 
 SpriteManager::~SpriteManager() {
-	int chunkSizeY = SCREEN_HEIGHT / CHUNK_SIZE;
-
-	for (int i = chunkSizeY - 1; i >= 0; --i) {
+	for (int i = Global::ChunkSize - 1; i >= 0; --i) {
 		delete[] _chunks[i];
 	}
 	delete[] _chunks;
 }
 
-void SpriteManager::AddStaticElement(Sprite sprite) {
-	_staticElements.push_back(sprite);
-}
-
-void SpriteManager::AddPlayer(Sprite sprite) {
+void SpriteManager::AddPlayer(Sprite* sprite) {
 	_player = sprite;
 }
 
 void SpriteManager::DrawAll() {
-	int chunkSizeX = SCREEN_WIDTH / CHUNK_SIZE;
-	int chunkSizeY = SCREEN_HEIGHT / CHUNK_SIZE;
-
 	DistributeSprites();
 
-	for (int i = 0; i < chunkSizeX; i++) {
-		for (int j = 0; j < chunkSizeY; j++) {
+	for (int i = 0; i < Global::ChunkCount; i++) {
+		for (int j = 0; j < Global::ChunkCount; j++) {
 			_chunks[i][j].Draw();
 		}
 	}
@@ -74,11 +79,8 @@ void SpriteManager::DrawAll() {
 void SpriteManager::ClearWindow() {
 	_sortedList.clear();
 
-	int chunkSizeX = SCREEN_WIDTH / CHUNK_SIZE;
-	int chunkSizeY = SCREEN_HEIGHT / CHUNK_SIZE;
-
-	for (int i = 0; i < chunkSizeX; i++) {
-		for (int j = 0; j < chunkSizeY; j++) {
+	for (int i = 0; i < Global::ChunkCount; i++) {
+		for (int j = 0; j < Global::ChunkCount; j++) {
 			_chunks[i][j].Clear();
 		}
 	}
@@ -89,26 +91,28 @@ void SpriteManager::SortStaticElements() {
 }
 
 void SpriteManager::Sort() {
-	_sortedList = std::list<Sprite>(_staticElements.begin(), _staticElements.end());
+	_sortedList = std::list<Sprite*>(_staticElements.begin(), _staticElements.end());
 }
 
 void SpriteManager::DistributeSprites() {
 	int chunkX;
 	int chunkY;
-	float chunkSize = CHUNK_SIZE * SPRITESHEET_CELL_SIZE * SCALE;
+	float chunkSize = Global::ChunkSize * SPRITESHEET_CELL_SIZE * Global::Scale;
 
 	Sort();
 
-	for (std::list<Sprite>::iterator it = _sortedList.begin(); it != _sortedList.end(); it++) {
-		chunkX = floor((*it).getPosX() / chunkSize);
-		chunkY = floor((*it).getPosY() / chunkSize);
+	for (auto it = _sortedList.begin(); it != _sortedList.end(); it++) {
+		chunkX = (int) floor((*it)->getPosX() / chunkSize);
+		chunkY = (int) floor((*it)->getPosY() / chunkSize);
 
-		_chunks[chunkX][chunkY].AddSprite(*it);
+		_chunks[chunkX][chunkY].AddSprite(**it);
 	}
 
-	chunkX = floor(_player.getPosX() / chunkSize);
-	chunkY = floor(_player.getPosY() / chunkSize);
+	chunkX = (int) floor(_player->getPosX() / chunkSize);
+	chunkY = (int) floor(_player->getPosY() / chunkSize);
 	_chunks[chunkX][chunkY].AddPlayer(_player);
+	MainChunkX = chunkX;
+	MainChunkY = chunkY;
 	_mainChunk = _chunks[chunkX][chunkY];
 }
 

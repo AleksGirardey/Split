@@ -28,8 +28,8 @@ Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physic
 {
 	_sprite = new Sprite(
 		0,
-		(float)(posX * SPRITESHEET_CELL_SIZE * SCALE), 
-		(float)(posY * SPRITESHEET_CELL_SIZE * SCALE),
+		(float)(posX * SPRITESHEET_CELL_SIZE * Global::Scale),
+		(float)(posY * SPRITESHEET_CELL_SIZE * Global::Scale),
 		false,
 		false,
 		false,
@@ -82,6 +82,14 @@ void Player::idle(Movements movement) {
 	}
 }
 
+void Player::SetObstacles(std::vector<Obstacle*> obstacles) {
+	_physics->SetObstacles(obstacles);
+}
+
+void Player::SetTraps(std::vector<Obstacle*> traps) {
+	_physics->SetTraps(traps);
+}
+
 void Player::Draw(float deltaTime) {
 	bool goingLeft = false;
 
@@ -107,17 +115,17 @@ void Player::Draw(float deltaTime) {
 	_sprite->setFlipH(_left);
 
 	_sprite->setIndex(_animator->GetTile(_state, deltaTime));
-	_spriteManager->AddPlayer(*_sprite);
+	_spriteManager->AddPlayer(_sprite);
 }
 
 void	Player::ClampX(Sprite* sprite) {
 	if (sprite->getPosX() < 0) sprite->setPosX(0);
-	else if (sprite->getPosX() > (float)((SCREEN_WIDTH - 1) * SPRITESHEET_CELL_SIZE * SCALE))
-		sprite->setPosX((SCREEN_WIDTH - 1) * SPRITESHEET_CELL_SIZE * SCALE);
+	else if (sprite->getPosX() > (float)((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale))
+		sprite->setPosX((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
 }
 
 void 	Player::ClampY(Sprite* sprite) {
 	if (sprite->getPosY() < 0) sprite->setPosY(0);
-	else if (sprite->getPosY() > (float)((SCREEN_HEIGHT - 1) * SPRITESHEET_CELL_SIZE * SCALE))
-		sprite->setPosY((SCREEN_HEIGHT - 1) * SPRITESHEET_CELL_SIZE * SCALE);
+	else if (sprite->getPosY() > (float)((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale))
+		sprite->setPosY((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
 }

@@ -5,6 +5,8 @@
 
 class Chunk {
 private:
+
+
 	SpriteSheet* _spriteSheet;
 	sf::RenderWindow* _window;
 	sf::Color _background;
@@ -17,7 +19,7 @@ public:
 	~Chunk();
 
 	void AddSprite(Sprite sprite);
-	void AddPlayer(Sprite sprite);
+	void AddPlayer(Sprite* sprite);
 
 	void Draw();
 	void Clear();

@@ -5,26 +5,31 @@
 #include <list>
 #include <SFML/Graphics.hpp>
 #include "Chunk.h"
+#include "Level.h"
 
-class SpriteManager
-{
+class SpriteManager {
 private:
+	SpriteSheet* _spritesheet;
 	Chunk** _chunks;
-	std::list<Sprite> _staticElements;
-	Sprite _player;
+	Sprite* _player;
 	Chunk _mainChunk;
-	std::list<Sprite> _sortedList;
+	std::list<Sprite*> _staticElements;
+	std::list<Sprite*> _sortedList;
 
 	void Sort();
 public:
 	SpriteManager(SpriteSheet*);
 	~SpriteManager();
 
-	void AddStaticElement(Sprite sprite);
-	void AddPlayer(Sprite sprite);
+	int MainChunkX;
+	int MainChunkY;
+
+	void AddPlayer(Sprite* sprite);
 	void DrawAll();
 	void ClearWindow();
 	void SortStaticElements();
 	void DistributeSprites();
 	sf::RenderWindow* GetMainWindow();
+
+	void Load(Level* level);
 };
