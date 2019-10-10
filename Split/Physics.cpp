@@ -1,7 +1,5 @@
 #include "Physics.h"
 
-
-
 Physics::Physics()
 {
 	_strenght = 0;
@@ -90,6 +88,22 @@ bool Physics::CheckTrigger(float posX, float posY) {
 	}
 	return true;
 }
+
+bool Physics::CheckExit(float posX, float posY) {
+	int size = SPRITESHEET_CELL_SIZE * Global::Scale;
+	bool xCheck = (posX + 6 < _exitPoint->GetKey() + size) && (posX + 6 >= _exitPoint->GetKey());
+	bool yCheck = (posY + 6 >= _exitPoint->GetValue()) && (posY + 6 < _exitPoint->GetValue() + size);
+
+	xCheck = xCheck || 
+		(posX + size - 6 < _exitPoint->GetKey() + size) && (posX + size - 6 >= _exitPoint->GetKey());
+
+	yCheck = yCheck || 
+		(posY + size >= _exitPoint->GetValue()) && (posY + size < _exitPoint->GetValue() + size);
+	
+	if (xCheck && yCheck) return true;
+	return false;
+}
+
 float Physics::GetVelocity() {
 	return _strenght;
 }
@@ -101,3 +115,5 @@ void Physics::SetObstacles(std::vector<Obstacle*> list) {
 void Physics::SetTraps(std::vector<Obstacle*> list) {
 	trapList = list;
 }
+
+void Physics::SetExitPoint(Pair* pair) { _exitPoint = pair; }

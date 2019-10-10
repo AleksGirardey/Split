@@ -23,6 +23,9 @@ private:
 	Animator* _animator;
 	Physics* _physics;
 
+	Pair* _spawnPoint;
+	Pair* _exitPoint;
+
 	bool _left;
 	bool _right;
 	bool _up;
@@ -36,7 +39,7 @@ private:
 	void ClampY(Sprite*);
 public:
 	Player(SpriteManager* spriteManager, Animator* animator, Physics* physics);
-	Player(SpriteManager* spriteManager, Animator* animator, Physics* physics, int posX, int posY);
+	Player(SpriteManager* spriteManager, Animator* animator, Physics* physics, Pair* spawn, Pair* exit);
 	~Player();
 
 	void goingRight();
@@ -47,6 +50,8 @@ public:
 
 	void SetObstacles(std::vector<Obstacle*>);
 	void SetTraps(std::vector<Obstacle*>);
+	void SetSpawn(Pair*);
+	void SetExitPoint(Pair*);
 	void GoSpawn();
 
 	void Draw(float deltaTime);

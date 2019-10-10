@@ -14,7 +14,7 @@ Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physic
 	_sprite = new Sprite(0, 0.f, 0.f, false, false, false, 1);
 }
 
-Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physics, int posX, int posY) :
+Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physics, Pair* spawn, Pair* exit) :
 	_state(IDLE),
 	_idle(true),
 	_left(false),
@@ -24,13 +24,15 @@ Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physic
 	_down(false),
 	_spriteManager(spriteManager),
 	_animator(animator),
-	_physics(physics)
+	_physics(physics),
+	_spawnPoint(spawn),
+	_exitPoint(exit)
 {
-	float newPosY = (float)(posY * SPRITESHEET_CELL_SIZE * Global::Scale);
+	float newPosY = (float)(spawn->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale);
 
 	_sprite = new Sprite(
 		0,
-		(float)(posX * SPRITESHEET_CELL_SIZE * Global::Scale),
+		(float)(spawn->GetKey() *SPRITESHEET_CELL_SIZE * Global::Scale),
 		newPosY - 1.f,
 		false,
 		false,
@@ -123,6 +125,10 @@ void Player::Draw(float deltaTime) {
 	if (!_physics->CheckTrigger(_sprite->getPosX(),_sprite->getPosY())) {
 		GoSpawn();
 	}
+
+	if (_physics->CheckExit(_sprite->getPosX(), _sprite->getPosY())) {
+		Global::Win = true;
+	}
 }
 
 void	Player::ClampX(Sprite* sprite) {
@@ -137,7 +143,14 @@ void 	Player::ClampY(Sprite* sprite) {
 		sprite->setPosY((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
 }
 
+void Player::SetSpawn(Pair* pair) { _spawnPoint = pair; }
+
+void Player::SetExitPoint(Pair* pair) {
+	_exitPoint = pair;
+	_physics->SetExitPoint(pair);
+}
+
 void Player::GoSpawn() {
-	_sprite->setPosX(0);
-	_sprite->setPosY(0);
+	_sprite->setPosX(_spawnPoint->GetKey() * SPRITESHEET_CELL_SIZE * Global::Scale);
+	_sprite->setPosY(_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale);
 }

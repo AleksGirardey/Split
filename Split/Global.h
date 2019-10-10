@@ -19,6 +19,8 @@ public:
 	static int Scale;
 	static int ChunkSize;
 	static int ChunkCount;
+
+	static bool Win;
 };
 
 const unsigned FLIPPED_H = 0x80000000;

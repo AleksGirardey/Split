@@ -2,6 +2,8 @@
 #include <vector>
 #include "Sprite.h"
 #include "Global.h"
+#include "Pair.h"
+
 typedef struct obstacle{
 	float posX;
 	float posY;
@@ -13,6 +15,8 @@ class Physics
 {
 	std::vector<Obstacle*> obstacleList;
 	std::vector<Obstacle*> trapList;
+
+	Pair* _exitPoint;
 
 	float _strenght = 0;
 public:
@@ -27,9 +31,11 @@ public:
 	bool MoveY(Sprite* sprite, float speed);
 	bool CheckObstacle(float posX, float posY);
 	bool CheckTrigger(float posX, float posY);
+	bool CheckExit(float posX, float posY);
 	float GetVelocity();
 
 	void SetObstacles(std::vector<Obstacle*> list);
 	void SetTraps(std::vector<Obstacle*> list);
+	void SetExitPoint(Pair* pair);
 };
 

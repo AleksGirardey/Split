@@ -31,7 +31,7 @@ void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
 int main(int argc, char** argv) {
 	sf::Time deltaTime;
 	sf::Clock clock;
-	
+
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 	SpriteManager spriteManager(spritesheet);
 	LevelManager levelManager;
@@ -45,7 +45,12 @@ int main(int argc, char** argv) {
 
 	Physics physics;
 	Animator animPlayerOne("242", "243,244", "245,246", "247", 0.5f);
-	Player playerOne(&spriteManager, &animPlayerOne, &physics,spawnX,spawnY);
+	Player playerOne(
+		&spriteManager,
+		&animPlayerOne,
+		&physics,
+		levelManager.CurrentLevel->SpawnPoint,
+		levelManager.CurrentLevel->ExitPoint);
 
 	spriteManager.SortStaticElements();
 	sf::RenderWindow* window = spriteManager.GetMainWindow();
@@ -96,6 +101,20 @@ int main(int argc, char** argv) {
 			}
 			
 		}
+
+		if (Global::Win) {
+			if (levelManager.CurrentLevel == NULL) exit(EXIT_SUCCESS);
+
+			levelManager.CurrentLevel = levelManager.CurrentLevel->NextLevel;
+			spriteManager.Load(levelManager.CurrentLevel);
+			window = spriteManager.GetMainWindow();
+			playerOne.SetSpawn(levelManager.CurrentLevel->SpawnPoint);
+			playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
+			playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
+			playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
+			Global::Win = false;
+		}
+
 		spriteManager.ClearWindow();
 		playerOne.Draw((float)deltaTime.asMilliseconds());
 		spriteManager.DrawAll();

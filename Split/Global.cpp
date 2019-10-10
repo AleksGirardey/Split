@@ -3,3 +3,4 @@
 int Global::Scale = 1;
 int Global::ChunkCount = 4;
 int Global::ChunkSize = 4;
+bool Global::Win = false;
