@@ -107,7 +107,7 @@ void Player::Draw(float deltaTime) {
 		}
 	}
 	 _physics->UpdateGravity(_sprite, deltaTime);
-	 
+
 	//Clamp
 	ClampX(_sprite);
 	ClampY(_sprite);
@@ -115,7 +115,12 @@ void Player::Draw(float deltaTime) {
 	_sprite->setFlipH(_left);
 
 	_sprite->setIndex(_animator->GetTile(_state, deltaTime));
+
 	_spriteManager->AddPlayer(_sprite);
+
+	if (!_physics->CheckTrigger(_sprite->getPosX(),_sprite->getPosY())) {
+		GoSpawn();
+	}
 }
 
 void	Player::ClampX(Sprite* sprite) {
@@ -128,4 +133,9 @@ void 	Player::ClampY(Sprite* sprite) {
 	if (sprite->getPosY() < 0) sprite->setPosY(0);
 	else if (sprite->getPosY() > (float)((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale))
 		sprite->setPosY((Global::ChunkSize - 1) * SPRITESHEET_CELL_SIZE * Global::Scale);
+}
+
+void Player::GoSpawn() {
+	_sprite->setPosX(0);
+	_sprite->setPosY(0);
 }

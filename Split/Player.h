@@ -47,5 +47,7 @@ public:
 
 	void SetObstacles(std::vector<Obstacle*>);
 	void SetTraps(std::vector<Obstacle*>);
+	void GoSpawn();
+
 	void Draw(float deltaTime);
 };

@@ -15,7 +15,7 @@ void HandleKeyPressed(Player* player) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		player->goingUp();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		player->goingDown();
+		player->GoSpawn();
 }
 
 void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {

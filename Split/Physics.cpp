@@ -20,6 +20,14 @@ void Physics::AddObstacle(float posX, float posY, float sizeX, float sizeY) {
 	obs->sizeY = sizeY;
 	obstacleList.push_back(obs);
 }
+void Physics::AddTrap(float posX, float posY, float sizeX, float sizeY) {
+	Obstacle* obs = new Obstacle();
+	obs->posX = posX;
+	obs->posY = posY;
+	obs->sizeX = sizeX;
+	obs->sizeY = sizeY;
+	trapList.push_back(obs);
+}
 void Physics::AddForce(float strenght) {
 	if (_strenght < 0) {
 		_strenght = 0;
@@ -29,11 +37,13 @@ void Physics::AddForce(float strenght) {
 bool Physics::UpdateGravity(Sprite* sprite, float deltaTime) {
 	if (_strenght > 0) {
 		_strenght -= (PLAYER_MASS*deltaTime);
-		if (!MoveY(sprite, -PLAYER_MASS*deltaTime * 2)) {
-			//_strenght = 0;
+		if (MoveY(sprite, -PLAYER_MASS*deltaTime)) {
+			_strenght = 0;
 		}
 	}
-	MoveY(sprite, PLAYER_MASS*deltaTime);
+	else {
+		MoveY(sprite, PLAYER_MASS*deltaTime);
+	}
 	return false;
 }
 void Physics::MoveX(Sprite* sprite, float speed) {
@@ -45,20 +55,39 @@ bool Physics::MoveY(Sprite* sprite, float speed) {
 		sprite->setPosY(sprite->getPosY() + speed);
 		return false;
 	}
+	else {
+		for (int i = 1; i < 10;i++) {
+			if (CheckObstacle(sprite->getPosX(), sprite->getPosY() + (speed/10))) {
+				sprite->setPosY(sprite->getPosY() + (speed / 10));
+				return false;
+			}
+		}
+	}
 	return true;
 }
 
 bool Physics::CheckObstacle(float posX, float posY) {
 	for (int i = 0; i < obstacleList.size();i++) {
-		bool xCheck = posX+5 < obstacleList[i]->posX + obstacleList[i]->sizeX && posX+5 >= obstacleList[i]->posX;
-		xCheck = xCheck ||  posX+ obstacleList[i]->sizeX-5 < obstacleList[i]->posX + obstacleList[i]->sizeX && posX+ obstacleList[i]->sizeX - 5 >= obstacleList[i]->posX;
-		bool yCheck = posY >= obstacleList[i]->posY && posY < obstacleList[i]->posY + obstacleList[i]->sizeY;
+		bool xCheck = posX+6 < obstacleList[i]->posX + obstacleList[i]->sizeX && posX+6 >= obstacleList[i]->posX;
+		xCheck = xCheck ||  posX+ obstacleList[i]->sizeX-6 < obstacleList[i]->posX + obstacleList[i]->sizeX && posX+ obstacleList[i]->sizeX - 6 >= obstacleList[i]->posX;
+		bool yCheck = posY+6 >= obstacleList[i]->posY && posY+6 < obstacleList[i]->posY + obstacleList[i]->sizeY;
 		yCheck = yCheck || posY + obstacleList[i]->sizeY >= obstacleList[i]->posY && posY + obstacleList[i]->sizeY < obstacleList[i]->posY + obstacleList[i]->sizeY;
 		if (xCheck && yCheck) {
 			return false;
 		}
 	}
-
+	return true;
+}
+bool Physics::CheckTrigger(float posX, float posY) {
+	for (int i = 0; i < trapList.size(); i++) {
+		bool xCheck = posX + 6 < trapList[i]->posX + trapList[i]->sizeX && posX + 6 >= trapList[i]->posX;
+		xCheck = xCheck || posX + trapList[i]->sizeX - 6 < trapList[i]->posX + trapList[i]->sizeX && posX + trapList[i]->sizeX - 6 >= trapList[i]->posX;
+		bool yCheck = posY + 6 >= trapList[i]->posY && posY + 6 < trapList[i]->posY + trapList[i]->sizeY;
+		yCheck = yCheck || posY + trapList[i]->sizeY >= trapList[i]->posY && posY + trapList[i]->sizeY < trapList[i]->posY + trapList[i]->sizeY;
+		if (xCheck && yCheck) {
+			return false;
+		}
+	}
 	return true;
 }
 float Physics::GetVelocity() {
