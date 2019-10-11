@@ -34,6 +34,8 @@ private:
 	bool _idle;
 	bool _jump;
 	float _jumpValue;
+	float _timeToSpawn = 0;
+	bool _isDead = false;
 	AnimationState _state;
 
 	void ClampX(Sprite*);
