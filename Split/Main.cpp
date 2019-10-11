@@ -69,35 +69,41 @@ int main(int argc, char** argv) {
 					exit(EXIT_SUCCESS);
 				HandleKeyPressed(&playerOne);
 			}
-
-			if (event.type == sf::Event::KeyReleased) {
-				HandleKeyReleased(&playerOne, event.key.code);
-			}
-
-			//JOYSTICK
-			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-
-			if (x > 20) {
-				playerOne.goingRight();
-			}
-			else if (x < -20) {
-				playerOne.goingLeft();
-			}
 			else {
-				playerOne.idle(LEFT);
-				playerOne.idle(RIGHT);
-			}
-			if (event.type == sf::Event::JoystickButtonPressed) {
-				if (sf::Joystick::isButtonPressed(0, 0)) {
-					playerOne.goingUp();
+				if (event.type == sf::Event::KeyReleased) {
+					HandleKeyReleased(&playerOne, event.key.code);
 				}
 				else {
-					playerOne.idle(UP);
+					//JOYSTICK
+					float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+
+					if (x > 20) {
+						playerOne.goingRight();
+					}
+					else if (x < -20) {
+						playerOne.goingLeft();
+					}
+					else {
+						playerOne.idle(LEFT);
+						playerOne.idle(RIGHT);
+					}
+					if (event.type == sf::Event::JoystickButtonPressed) {
+						if (sf::Joystick::isButtonPressed(0, 0)) {
+							playerOne.goingUp();
+						}
+						else {
+							playerOne.idle(UP);
+						}
+					}
+					else {
+						playerOne.idle(UP);
+					}
 				}
 			}
-			else {
-				playerOne.idle(UP);
-			}
+
+			
+
+			
 			
 		}
 
