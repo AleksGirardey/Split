@@ -9,7 +9,7 @@ Physics::Physics()
 Physics::~Physics()
 {
 }
-float Physics::boxPlayer = 6 * Global::Scale;
+float Physics::boxPlayer = 10 * Global::Scale;
 
 void Physics::AddObstacle(float posX, float posY, float sizeX, float sizeY) {
 	Obstacle* obs = new Obstacle();
