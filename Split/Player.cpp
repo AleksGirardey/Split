@@ -119,7 +119,7 @@ void Player::Draw(float deltaTime) {
 		}
 		//if (_down) _sprite->setPosY(_sprite->getPosY() + (PLAYER_SPEED * deltaTime));
 		if (_physics->GetVelocity() <= 0) {
-			if (!_physics->CheckObstacle(_sprite->getPosX(),_sprite->getPosY()+PLAYER_MASS*deltaTime)) {
+			if (!_physics->CheckObstacle(_sprite->getPosX(),_sprite->getPosY()+PLAYER_MASS*deltaTime* Global::Scale)) {
 				_jump = false;
 			}
 		}

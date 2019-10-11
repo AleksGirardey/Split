@@ -2,6 +2,7 @@
 #include "LevelManager.h"
 #include <random>
 #include "Pair.h"
+#include "Expo.h"
 
 SpriteManager::SpriteManager(SpriteSheet* spritesheet) :
 	_spritesheet(spritesheet)
@@ -47,19 +48,22 @@ void SpriteManager::Load(Level* level) {
 			"Mini Map", sf::Style::None);
 		_miniMap->setPosition(sf::Vector2i(offsetMinimapX, offsetMinimapY));
 	}
+	_timeAnim = 0;
 
 	_chunks = new Chunk *[level->ChunkCount];
 	for (int i = 0; i < level->ChunkCount; i++) {
 		_chunks[i] = new Chunk[level->ChunkCount];
 		for (int j = 0; j < level->ChunkCount; j++) {
+			offsetPosX = (desktopWidth / 2) - (windowSize / 2);
+			offsetPosY = (desktopHeight / 2) - (windowSize / 2);
 			window = new sf::RenderWindow(
 				sf::VideoMode(windowSize, windowSize),
 				"SFML",
 				sf::Style::None);
 			window->setPosition(sf::Vector2i(
-				(staticListPair[index].GetKey() * (windowSize + windowOffset)) + offsetPosX ,
-				(staticListPair[index].GetValue() * (windowSize + windowOffset)) + offsetPosY));
-			_chunks[i][j] = Chunk(window, _miniMap, _spritesheet);
+				(0 * (windowSize + windowOffset)) + offsetPosX ,
+				(0 * (windowSize + windowOffset)) + offsetPosY));
+			_chunks[i][j] = Chunk(window,_miniMap, _spritesheet);
 			if (!LevelManager::menuActive) {
 				if (i == floor(level->SpawnPoint->GetKey() / level->ChunkSize)
 					&& j == floor(level->SpawnPoint->GetValue() / level->ChunkSize)) {
@@ -146,14 +150,8 @@ void SpriteManager::DistributeSprites() {
 
 		_chunks[chunkX][chunkY].AddSprite(**it);
 	}
-	if (!LevelManager::menuActive) {
-		chunkX = (int) floor((_player->getPosX()+SPRITESHEET_CELL_SIZE/2*Global::Scale) / chunkSize);
-		chunkY = (int) floor((_player->getPosY() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
-	}
-	else {
-		chunkX = 0;
-		chunkY = 0;
-	}
+	chunkX = (int)floor((_player->getPosX() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
+	chunkY = (int)floor((_player->getPosY() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
 	_chunks[chunkX][chunkY].AddPlayer(_player);
 	MainChunkX = chunkX;
 	MainChunkY = chunkY;
@@ -186,4 +184,38 @@ void SpriteManager::NextLevel() {
 	DeleteChunks();
 	_staticElements.clear();
 	_sortedList.clear();
+}
+
+void SpriteManager::PlacementChunk(float deltaTime) {
+	int windowSize = Global::ChunkSize * SPRITESHEET_CELL_SIZE * Global::Scale;
+	unsigned int desktopWidth = sf::VideoMode::getDesktopMode().width;
+	unsigned int desktopHeight = sf::VideoMode::getDesktopMode().height;
+	int windowOffset = 30;
+	int offsetPosX = 0;
+	int offsetPosY = 0;
+	
+	offsetPosX = (desktopWidth / 2) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2);
+	offsetPosY = (desktopHeight / 2) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2);
+
+	int multiply = 2000*Global::Scale;
+	if (_timeAnim >= multiply)
+		return;
+	_timeAnim += deltaTime;
+	if (!LevelManager::menuActive) {
+		for (int i = 0; i < Global::ChunkCount; i++) {
+			for (int j = 0; j < Global::ChunkCount; j++) {
+				int posx = 0;
+				int posy = 0;
+				if (Global::Easy) {
+					posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), i*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2 - windowSize, multiply);
+					posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), j*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
+				}
+				else {
+					posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), i*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
+					posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), j*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
+				}
+				_chunks[i][j].GetWindow()->setPosition(sf::Vector2i(posx,posy));
+			}
+		}
+	}
 }

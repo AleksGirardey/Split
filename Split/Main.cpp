@@ -14,8 +14,6 @@ void HandleKeyPressed(Player* player) {
 		player->goingRight();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		player->goingUp();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		player->GoSpawn();
 }
 
 void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
@@ -23,7 +21,6 @@ void HandleKeyReleased(Player* player, sf::Keyboard::Key code) {
 		case sf::Keyboard::Left: player->idle(LEFT); break;
 		case sf::Keyboard::Right: player->idle(RIGHT); break;
 		case sf::Keyboard::Up: player->idle(UP); break;
-		case sf::Keyboard::Down: player->idle(DOWN); break;
 		default:break;
 	}
 }
@@ -35,7 +32,7 @@ int main(int argc, char** argv) {
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 	SpriteManager spriteManager(spritesheet);
 	LevelManager levelManager;
-//	LevelManager::menuActive = false;
+	LevelManager::menuActive = true;
 	spriteManager.Load(levelManager.CurrentLevel);
 
 	Physics physics;
@@ -127,6 +124,7 @@ int main(int argc, char** argv) {
 			Global::Init = false;
 		}
 		spriteManager.DrawAll();
+		spriteManager.PlacementChunk((float)deltaTime.asMilliseconds());
 		window = spriteManager.GetMainWindow();
 
 		if (Global::Win) {
@@ -135,6 +133,7 @@ int main(int argc, char** argv) {
 			LevelManager::menuActive = false;
 
 			spriteManager.NextLevel();
+			LevelManager::menuActive = false;
 			levelManager.CurrentLevel = levelManager.CurrentLevel->NextLevel;
 			spriteManager.Load(levelManager.CurrentLevel);
 			window = spriteManager.GetMainWindow();

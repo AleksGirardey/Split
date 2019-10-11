@@ -16,6 +16,7 @@ private:
 	Chunk _mainChunk;
 	std::list<Sprite*> _staticElements;
 	std::list<Sprite*> _sortedList;
+	float _timeAnim = 0;
 
 	void Sort();
 	void CloseWindows();
@@ -32,6 +33,7 @@ public:
 	void ClearWindow();
 	void SortStaticElements();
 	void DistributeSprites();
+	void PlacementChunk(float deltaTime);
 	sf::RenderWindow* GetMainWindow();
 
 	void NextLevel();
