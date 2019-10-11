@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 	SpriteManager spriteManager(spritesheet);
 	LevelManager levelManager;
-	LevelManager::menuActive = true;
+	LevelManager::menuActive = false;
 	spriteManager.Load(levelManager.CurrentLevel);
 
 	Physics physics;
@@ -120,6 +120,7 @@ int main(int argc, char** argv) {
 			spriteManager.Load(levelManager.CurrentLevel);
 			window = spriteManager.GetMainWindow();
 			playerOne.SetSpawn(levelManager.CurrentLevel->SpawnPoint);
+			playerOne.GoSpawn();
 			playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
 			playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 			playerOne.SetTraps(levelManager.CurrentLevel->TrapList);

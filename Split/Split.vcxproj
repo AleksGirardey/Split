@@ -31,7 +31,7 @@
     <ProjectGuid>{0FCAD2B9-5BB8-418E-A239-7E3D9A6E6108}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Split</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>Split</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
