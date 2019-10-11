@@ -1,4 +1,6 @@
 #include "Player.h"
+#include <chrono>
+#include <thread>
 
 Player::Player(SpriteManager* spriteManager, Animator* animator, Physics* physics) :
 	_state(IDLE),
@@ -98,16 +100,18 @@ void Player::Draw(float deltaTime) {
 	bool goingLeft = false;
 
 	//Movement
-	if (_left) _physics->MoveX(_sprite,-(PLAYER_SPEED * deltaTime));
-	if (_right) _physics->MoveX(_sprite, (PLAYER_SPEED * deltaTime));
-	if (_up && !_jump) {
-		_jump = true;
-		_physics->AddForce(PLAYER_JUMP);
-	}
-	//if (_down) _sprite->setPosY(_sprite->getPosY() + (PLAYER_SPEED * deltaTime));
-	if (_physics->GetVelocity() <= 0) {
-		if (!_physics->CheckObstacle(_sprite->getPosX(),_sprite->getPosY()+PLAYER_MASS*deltaTime)) {
-			_jump = false;
+	if (!_isDead) {
+		if (_left) _physics->MoveX(_sprite,-(PLAYER_SPEED * deltaTime*Global::Scale));
+		if (_right) _physics->MoveX(_sprite, (PLAYER_SPEED * deltaTime*Global::Scale));
+		if (_up && !_jump) {
+			_jump = true;
+			_physics->AddForce(PLAYER_JUMP*Global::Scale);
+		}
+		//if (_down) _sprite->setPosY(_sprite->getPosY() + (PLAYER_SPEED * deltaTime));
+		if (_physics->GetVelocity() <= 0) {
+			if (!_physics->CheckObstacle(_sprite->getPosX(),_sprite->getPosY()+PLAYER_MASS*deltaTime)) {
+				_jump = false;
+			}
 		}
 	}
 	 _physics->UpdateGravity(_sprite, deltaTime);
@@ -123,7 +127,19 @@ void Player::Draw(float deltaTime) {
 	_spriteManager->AddPlayer(_sprite);
 
 	if (!_physics->CheckTrigger(_sprite->getPosX(),_sprite->getPosY())) {
-		GoSpawn();
+		_state = DEATH;
+		_isDead = true;
+	}
+	if (_isDead) {
+		_timeToSpawn += deltaTime;
+		if (_timeToSpawn >= 500) {
+			_isDead = false;
+			GoSpawn();
+			_timeToSpawn = 0;
+		}
+	}
+	else {
+		_timeToSpawn = 0;
 	}
 
 	if (_physics->CheckExit(_sprite->getPosX(), _sprite->getPosY())) {
@@ -161,5 +177,5 @@ void Player::SetQuitPoint(Pair* pair) {
 
 void Player::GoSpawn() {
 	_sprite->setPosX(_spawnPoint->GetKey() * SPRITESHEET_CELL_SIZE * Global::Scale);
-	_sprite->setPosY((_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale) + 1.f);
+	_sprite->setPosY((_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale) - 1.f);
 }

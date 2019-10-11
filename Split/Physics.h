@@ -15,12 +15,12 @@ class Physics
 {
 	std::vector<Obstacle*> obstacleList;
 	std::vector<Obstacle*> trapList;
-
 	Pair* _exitPoint;
 	Pair* _quitPoint;
 
 	float _strenght = 0;
 public:
+	static float boxPlayer;
 	Physics();
 	~Physics();
 	void AddObstacle(float posX,float posY,float sizeX,float sizeY);
