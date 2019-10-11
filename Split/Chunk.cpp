@@ -36,7 +36,7 @@ void Chunk::Draw() {
 	_window->clear(_background);
 
 	for (std::list<Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
-		if (_drawMinimap && !LevelManager::menuActive && !(*it).IsPlayer)
+		if (Global::Easy && _drawMinimap && !LevelManager::menuActive && !(*it).IsPlayer)
 			_spriteSheet->DrawSprite(_minimap, *it);
 
 		chunkPosX = floorf(((*it).getPosX() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
