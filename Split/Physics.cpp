@@ -109,6 +109,21 @@ bool Physics::CheckExit(float posX, float posY) {
 	return false;
 }
 
+bool Physics::CheckQuit(float posX, float posY) {
+	int size = SPRITESHEET_CELL_SIZE * Global::Scale;
+	bool xCheck = (posX + 6 < _quitPoint->GetKey() + size) && (posX + 6 >= _quitPoint->GetKey());
+	bool yCheck = (posY + 6 >= _quitPoint->GetValue()) && (posY + 6 < _quitPoint->GetValue() + size);
+
+	xCheck = xCheck || 
+		(posX + size - 6 < _quitPoint->GetKey() + size) && (posX + size - 6 >= _quitPoint->GetKey());
+
+	yCheck = yCheck || 
+		(posY + size >= _quitPoint->GetValue()) && (posY + size < _quitPoint->GetValue() + size);
+	
+	if (xCheck && yCheck) return true;
+	return false;
+}
+
 float Physics::GetVelocity() {
 	return _strenght;
 }
@@ -122,3 +137,4 @@ void Physics::SetTraps(std::vector<Obstacle*> list) {
 }
 
 void Physics::SetExitPoint(Pair* pair) { _exitPoint = pair; }
+void Physics::SetQuitPoint(Pair* pair) { _quitPoint = pair; }

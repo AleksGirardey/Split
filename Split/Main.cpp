@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
 	playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 	playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
 	playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
+	playerOne.SetQuitPoint(levelManager.CurrentLevel->QuitPoint);
 
 	
 	while (window->isOpen()) {

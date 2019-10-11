@@ -7,6 +7,7 @@
 #define SPAWNINDEX 294
 #define EXITINDEX 241
 #define TRAPINDEX 165
+#define QUITINDEX 589
 
 class Level {
 private:
@@ -28,6 +29,7 @@ public:
 	int Scale;
 	Pair* SpawnPoint;
 	Pair* ExitPoint;
+	Pair* QuitPoint;
 	Level* NextLevel;
 	std::vector<Obstacle*> ObstacleList;
 	std::vector<Obstacle*> TrapList;
