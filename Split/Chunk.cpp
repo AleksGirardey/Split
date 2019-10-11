@@ -1,12 +1,15 @@
 #include "Chunk.h"
 #include "SpriteManager.h"
 #include <iostream>
+#include "LevelManager.h"
 
-Chunk::Chunk(sf::RenderWindow* window, SpriteSheet* spritesheet) :
+Chunk::Chunk(sf::RenderWindow* window, sf::RenderWindow* minimap, SpriteSheet* spritesheet) :
 	_window(window),
+	_minimap(minimap),
 	_spriteSheet(spritesheet) {
 	_sprites = std::list<Sprite>();
 	_background = sf::Color(71, 45, 60, 255);
+	_drawMinimap = false;
 }
 
 Chunk::Chunk() : _window(NULL), _spriteSheet(NULL) {
@@ -22,6 +25,7 @@ void Chunk::AddSprite(Sprite sprite) {
 void Chunk::AddPlayer(Sprite* sprite) {
 	_sprites.push_back(*sprite);
 	_window->requestFocus();
+	_drawMinimap = true;
 }
 
 void Chunk::Draw() {
@@ -32,7 +36,10 @@ void Chunk::Draw() {
 	_window->clear(_background);
 
 	for (std::list<Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
-		chunkPosX = floorf(((*it).getPosX()+SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
+		if (_drawMinimap && !LevelManager::menuActive && !(*it).IsPlayer)
+			_spriteSheet->DrawSprite(_minimap, *it);
+
+		chunkPosX = floorf(((*it).getPosX() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
 		chunkPosY = floorf(((*it).getPosY() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
 		
 		if (chunkPosX != 0)

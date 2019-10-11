@@ -7,7 +7,8 @@ Sprite::Sprite(int index, float posX, float posY, bool flipH, bool flipV, bool f
 	_flipH(flipH),
 	_flipV(flipV),
 	_flipD(flipD),
-	_layer(layer)
+	_layer(layer),
+	IsPlayer(false)
 {}
 
 Sprite::Sprite() :
@@ -17,7 +18,8 @@ Sprite::Sprite() :
 	_flipH(false),
 	_flipV(false),
 	_flipD(false),
-	_layer(0)
+	_layer(0),
+	IsPlayer(false)
 {}
 Sprite::~Sprite() {}
 

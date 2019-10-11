@@ -30,5 +30,7 @@ public:
 	bool isFlipV();
 	bool isFlipD();
 
+	bool IsPlayer;
+
 	bool operator<(const Sprite& other);
 };

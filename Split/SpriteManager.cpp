@@ -31,13 +31,27 @@ void SpriteManager::Load(Level* level) {
 	int windowOffset = 30;
 	int offsetPosX = 0;
 	int offsetPosY = 0;
+	int offsetMinimapX = 0;
+	int offsetMinimapY = 0;
+
+	offsetPosY = (desktopHeight / 2) - ((level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 2);
+	offsetMinimapY = offsetPosY;
+
+	if (!Global::Easy) {
+		offsetPosX = (desktopWidth / 2) - ((level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 2);
+	} else {
+		offsetPosX = (desktopWidth / 2) - (2 * (level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 3);
+		offsetMinimapX = (desktopWidth / 2) + ((level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 3) + windowOffset;
+
+		_miniMap = new sf::RenderWindow(sf::VideoMode(windowSize * level->ChunkCount, windowSize * level->ChunkCount),
+			"Mini Map", sf::Style::None);
+		_miniMap->setPosition(sf::Vector2i(offsetMinimapX, offsetMinimapY));
+	}
 
 	_chunks = new Chunk *[level->ChunkCount];
 	for (int i = 0; i < level->ChunkCount; i++) {
 		_chunks[i] = new Chunk[level->ChunkCount];
 		for (int j = 0; j < level->ChunkCount; j++) {
-			offsetPosX = (desktopWidth / 2) - ((level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 2);
-			offsetPosY = (desktopHeight / 2) - ((level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 2);
 			window = new sf::RenderWindow(
 				sf::VideoMode(windowSize, windowSize),
 				"SFML",
@@ -45,7 +59,7 @@ void SpriteManager::Load(Level* level) {
 			window->setPosition(sf::Vector2i(
 				(staticListPair[index].GetKey() * (windowSize + windowOffset)) + offsetPosX ,
 				(staticListPair[index].GetValue() * (windowSize + windowOffset)) + offsetPosY));
-			_chunks[i][j] = Chunk(window, _spritesheet);
+			_chunks[i][j] = Chunk(window, _miniMap, _spritesheet);
 			if (!LevelManager::menuActive) {
 				if (i == floor(level->SpawnPoint->GetKey() / level->ChunkSize)
 					&& j == floor(level->SpawnPoint->GetValue() / level->ChunkSize)) {
@@ -96,6 +110,8 @@ void SpriteManager::DrawAll() {
 			_chunks[i][j].Draw();
 		}
 	}
+
+	if (_miniMap != NULL) _miniMap->display();
 }
 
 void SpriteManager::ClearWindow() {
@@ -106,6 +122,7 @@ void SpriteManager::ClearWindow() {
 			_chunks[i][j].Clear();
 		}
 	}
+	if (_miniMap != NULL) _miniMap->clear(sf::Color(71, 45, 60, 255));
 }
 
 void SpriteManager::SortStaticElements() {
@@ -154,6 +171,7 @@ void SpriteManager::CloseWindows() {
 			_chunks[i][j].GetWindow()->close();
 		}
 	}
+	if (_miniMap != NULL) _miniMap->close();
 }
 
 void SpriteManager::DeleteChunks() {

@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 	SpriteManager spriteManager(spritesheet);
 	LevelManager levelManager;
-	LevelManager::menuActive = false;
+//	LevelManager::menuActive = false;
 	spriteManager.Load(levelManager.CurrentLevel);
 
 	Physics physics;
@@ -118,11 +118,6 @@ int main(int argc, char** argv) {
 					}
 				}
 			}
-
-			
-
-			
-			
 		}
 
 		spriteManager.ClearWindow();
@@ -137,6 +132,8 @@ int main(int argc, char** argv) {
 		if (Global::Win) {
 			if (levelManager.CurrentLevel->NextLevel == NULL)
 				exit(EXIT_SUCCESS);
+			LevelManager::menuActive = false;
+
 			spriteManager.NextLevel();
 			levelManager.CurrentLevel = levelManager.CurrentLevel->NextLevel;
 			spriteManager.Load(levelManager.CurrentLevel);

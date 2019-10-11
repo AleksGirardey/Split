@@ -10,6 +10,7 @@
 class SpriteManager {
 private:
 	SpriteSheet* _spritesheet;
+	sf::RenderWindow* _miniMap;
 	Chunk** _chunks;
 	Sprite* _player;
 	Chunk _mainChunk;

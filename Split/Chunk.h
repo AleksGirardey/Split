@@ -9,12 +9,15 @@ private:
 
 	SpriteSheet* _spriteSheet;
 	sf::RenderWindow* _window;
+	sf::RenderWindow* _minimap;
 	sf::Color _background;
+
+	bool _drawMinimap;
 
 	std::list<Sprite> _sprites;
 
 public:
-	Chunk(sf::RenderWindow* window, SpriteSheet* spritesheet);
+	Chunk(sf::RenderWindow* window, sf::RenderWindow* minimap, SpriteSheet* spritesheet);
 	Chunk();
 	~Chunk();
 

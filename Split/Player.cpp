@@ -133,7 +133,7 @@ void Player::Draw(float deltaTime) {
 	_sprite->setFlipH(_left);
 
 	_sprite->setIndex(_animator->GetTile(_state, deltaTime));
-
+	_sprite->IsPlayer = true;
 	_spriteManager->AddPlayer(_sprite);
 
 	if (!_physics->CheckTrigger(_sprite->getPosX(),_sprite->getPosY())) {
