@@ -116,6 +116,7 @@ int main(int argc, char** argv) {
 			playerOne.SetSpawn(levelManager.CurrentLevel->SpawnPoint);
 			playerOne.GoSpawn();
 			playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
+			playerOne.SetQuitPoint(levelManager.CurrentLevel->QuitPoint);
 			playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 			playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
 			Global::Win = false;
