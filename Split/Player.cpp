@@ -47,6 +47,8 @@ Player::~Player() {
 }
 
 void Player::goingRight() {
+	if (_isDead)
+		return;
 	_right = true;
 	_left = false;
 	_state = MOVE;
@@ -54,6 +56,8 @@ void Player::goingRight() {
 }
 
 void Player::goingLeft() {
+	if (_isDead)
+		return;
 	_right = false;
 	_left = true;
 	_state = MOVE;
@@ -61,6 +65,8 @@ void Player::goingLeft() {
 }
 
 void Player::goingUp() {
+	if (_isDead)
+		return;
 	_up = true;
 	_down = false;
 	_state = MOVE;
@@ -68,6 +74,8 @@ void Player::goingUp() {
 }
 
 void Player::goingDown() {
+	if (_isDead)
+		return;
 	_up = false;
 	_down = true;
 	_state = MOVE;
@@ -75,6 +83,8 @@ void Player::goingDown() {
 }
 
 void Player::idle(Movements movement) {
+	if (_isDead)
+		return;
 	switch (movement) {
 		case UP: _up = false; break;
 		case DOWN: _down = false; break;
