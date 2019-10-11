@@ -130,6 +130,9 @@ void Player::Draw(float deltaTime) {
 		std::cout << "Exit triggered" << std::endl;
 		Global::Win = true;
 	}
+
+	if (_quitPoint != NULL && _physics->CheckQuit(_sprite->getPosX(), _sprite->getPosY()))
+		exit(EXIT_SUCCESS);
 }
 
 void	Player::ClampX(Sprite* sprite) {

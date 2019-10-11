@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 	SpriteSheet* spritesheet = new SpriteSheet("./Assets/colored_transparent.png");
 	SpriteManager spriteManager(spritesheet);
 	LevelManager levelManager;
-	LevelManager::menuActive = true;
+	LevelManager::menuActive = false;
 	spriteManager.Load(levelManager.CurrentLevel);
 
 	Physics physics;
