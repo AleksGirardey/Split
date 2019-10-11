@@ -32,8 +32,8 @@ void Chunk::Draw() {
 	_window->clear(_background);
 
 	for (std::list<Sprite>::iterator it = _sprites.begin(); it != _sprites.end(); it++) {
-		chunkPosX = floorf((*it).getPosX() / chunkSize);
-		chunkPosY = floorf((*it).getPosY() / chunkSize);
+		chunkPosX = floorf(((*it).getPosX()+SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
+		chunkPosY = floorf(((*it).getPosY() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
 		
 		if (chunkPosX != 0)
 			(*it).setPosX((*it).getPosX() - ((chunkPosX) * chunkSize));

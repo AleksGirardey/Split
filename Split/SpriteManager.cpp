@@ -114,8 +114,8 @@ void SpriteManager::DistributeSprites() {
 		_chunks[chunkX][chunkY].AddSprite(**it);
 	}
 	if (!LevelManager::menuActive) {
-		chunkX = (int) floor(_player->getPosX() / chunkSize);
-		chunkY = (int) floor(_player->getPosY() / chunkSize);
+		chunkX = (int) floor((_player->getPosX()+SPRITESHEET_CELL_SIZE/2*Global::Scale) / chunkSize);
+		chunkY = (int) floor((_player->getPosY() + SPRITESHEET_CELL_SIZE / 2 * Global::Scale) / chunkSize);
 	}
 	else {
 		chunkX = 0;
