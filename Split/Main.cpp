@@ -54,6 +54,7 @@ int main(int argc, char** argv) {
 	playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
 	playerOne.SetQuitPoint(levelManager.CurrentLevel->QuitPoint);
 
+	Global::Init = true;
 	
 	while (window->isOpen()) {
 		sf::Event event;
@@ -102,6 +103,10 @@ int main(int argc, char** argv) {
 
 		spriteManager.ClearWindow();
 		playerOne.Draw((float)deltaTime.asMilliseconds());
+		if (Global::Init) {
+			playerOne.GoSpawn();
+			Global::Init = false;
+		}
 		spriteManager.DrawAll();
 		window = spriteManager.GetMainWindow();
 
@@ -120,6 +125,7 @@ int main(int argc, char** argv) {
 			playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 			playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
 			Global::Win = false;
+			Global::Init = true;
 		}
 	}
 

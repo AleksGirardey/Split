@@ -21,6 +21,7 @@ public:
 	static int ChunkCount;
 
 	static bool Win;
+	static bool Init;
 };
 
 const unsigned FLIPPED_H = 0x80000000;
