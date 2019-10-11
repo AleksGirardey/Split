@@ -37,7 +37,10 @@ Level::Level(std::string path, int chunkSize, int chunkCount, int scale, Level* 
 	_layerZero.push_back(44);
 	_layerZero.push_back(166);
 	_layerZero.push_back(196);
+	_layerZero.push_back(484);
+	_layerZero.push_back(485);
 
+	_layerTwo.push_back(353);
 	_layerTwo.push_back(357);
 	_layerTwo.push_back(358);
 	_layerTwo.push_back(359);
@@ -91,12 +94,25 @@ void Level::CheckTile(unsigned rawIndex, int posX, int posY) {
 			ObstacleList.push_back(obstacle);
 		else
 			TrapList.push_back(obstacle);
-	} else if (tileIndex - 1 == SPAWNINDEX) {
+	}
+	else if (tileIndex - 1 == SPAWNINDEX) {
 		SpawnPoint = new Pair(posX, posY);
-	} else if (tileIndex - 1 == EXITINDEX) {
+	}
+	else if (tileIndex - 1 == EXITINDEX) {
 		ExitPoint = new Pair(posX, posY);
-	} else if (tileIndex - 1 == QUITINDEX)
+	}
+	else if (tileIndex - 1 == QUITINDEX)
 		QuitPoint = new Pair(posX, posY);
+	else if (tileIndex - 1 == EASYINDEX)
+		EasyDifficultyPoint = new Pair(posX, posY);
+	else if (tileIndex - 1 == HARDINDEX)
+		HardDifficultyPoint = new Pair(posX, posY);
+	else if (tileIndex - 1 == PLAYERONEINDEX)
+		PlayerOnePoint = new Pair(posX, posY);
+	else if (tileIndex - 1 == PLAYERTWOINDEX)
+		PlayerTwoPoint = new Pair(posX, posY);
+	else if (tileIndex - 1 == PLAYERTHREEINDEX)
+		PlayerThreePoint = new Pair(posX, posY);
 }
 
 void Level::LoadFromCSV(std::string path) {

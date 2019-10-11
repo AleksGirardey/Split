@@ -126,6 +126,86 @@ bool Physics::CheckQuit(float posX, float posY) {
 	return false;
 }
 
+bool Physics::CheckEasy(float posX, float posY) {
+	if (_p3Point == NULL) return false;
+	int size = SPRITESHEET_CELL_SIZE * Global::Scale;
+	bool xCheck = (posX + Physics::boxPlayer < _easyPoint->GetKey() * size + size) && (posX + Physics::boxPlayer >= _easyPoint->GetKey() * size);
+	bool yCheck = (posY + Physics::boxPlayer >= _easyPoint->GetValue() * size) && (posY + Physics::boxPlayer < _easyPoint->GetValue() * size + size);
+
+	xCheck = xCheck ||
+		(posX + size - Physics::boxPlayer < _easyPoint->GetKey() * size + size) && (posX + size - Physics::boxPlayer >= _easyPoint->GetKey() * size);
+
+	yCheck = yCheck ||
+		(posY + size >= _easyPoint->GetValue() * size) && (posY + size < _easyPoint->GetValue() * size + size);
+
+	if (xCheck && yCheck) return true;
+	return false;
+}
+
+bool Physics::CheckHard(float posX, float posY) {
+	if (_hardPoint == NULL) return false;
+	int size = SPRITESHEET_CELL_SIZE * Global::Scale;
+	bool xCheck = (posX + Physics::boxPlayer < _hardPoint->GetKey() * size + size) && (posX + Physics::boxPlayer >= _hardPoint->GetKey() * size);
+	bool yCheck = (posY + Physics::boxPlayer >= _hardPoint->GetValue() * size) && (posY + Physics::boxPlayer < _hardPoint->GetValue() * size + size);
+
+	xCheck = xCheck ||
+		(posX + size - Physics::boxPlayer < _hardPoint->GetKey() * size + size) && (posX + size - Physics::boxPlayer >= _hardPoint->GetKey() * size);
+
+	yCheck = yCheck ||
+		(posY + size >= _hardPoint->GetValue() * size) && (posY + size < _hardPoint->GetValue() * size + size);
+
+	if (xCheck && yCheck) return true;
+	return false;
+}
+
+bool Physics::CheckPlayerOne(float posX, float posY) {
+	if (_p1Point == NULL) return false;
+	int size = SPRITESHEET_CELL_SIZE * Global::Scale;
+	bool xCheck = (posX + Physics::boxPlayer < _p1Point->GetKey() * size + size) && (posX + Physics::boxPlayer >= _p1Point->GetKey() * size);
+	bool yCheck = (posY + Physics::boxPlayer >= _p1Point->GetValue() * size) && (posY + Physics::boxPlayer < _p1Point->GetValue() * size + size);
+
+	xCheck = xCheck ||
+		(posX + size - Physics::boxPlayer < _p1Point->GetKey() * size + size) && (posX + size - Physics::boxPlayer >= _p1Point->GetKey() * size);
+
+	yCheck = yCheck ||
+		(posY + size >= _p1Point->GetValue() * size) && (posY + size < _p1Point->GetValue() * size + size);
+
+	if (xCheck && yCheck) return true;
+	return false;
+}
+
+bool Physics::CheckPlayerTwo(float posX, float posY) {
+	if (_p2Point == NULL) return false;
+	int size = SPRITESHEET_CELL_SIZE * Global::Scale;
+	bool xCheck = (posX + Physics::boxPlayer < _p2Point->GetKey() * size + size) && (posX + Physics::boxPlayer >= _p2Point->GetKey() * size);
+	bool yCheck = (posY + Physics::boxPlayer >= _p2Point->GetValue() * size) && (posY + Physics::boxPlayer < _p2Point->GetValue() * size + size);
+
+	xCheck = xCheck ||
+		(posX + size - Physics::boxPlayer < _p2Point->GetKey() * size + size) && (posX + size - Physics::boxPlayer >= _p2Point->GetKey() * size);
+
+	yCheck = yCheck ||
+		(posY + size >= _p2Point->GetValue() * size) && (posY + size < _p2Point->GetValue() * size + size);
+
+	if (xCheck && yCheck) return true;
+	return false;
+}
+
+bool Physics::CheckPlayerThree(float posX, float posY) {
+	if (_p3Point == NULL) return false;
+	int size = SPRITESHEET_CELL_SIZE * Global::Scale;
+	bool xCheck = (posX + Physics::boxPlayer < _p3Point->GetKey() * size + size) && (posX + Physics::boxPlayer >= _p3Point->GetKey() * size);
+	bool yCheck = (posY + Physics::boxPlayer >= _p3Point->GetValue() * size) && (posY + Physics::boxPlayer < _p3Point->GetValue() * size + size);
+
+	xCheck = xCheck ||
+		(posX + size - Physics::boxPlayer < _p3Point->GetKey() * size + size) && (posX + size - Physics::boxPlayer >= _p3Point->GetKey() * size);
+
+	yCheck = yCheck ||
+		(posY + size >= _p3Point->GetValue() * size) && (posY + size < _p3Point->GetValue() * size + size);
+
+	if (xCheck && yCheck) return true;
+	return false;
+}
+
 float Physics::GetVelocity() {
 	return _strenght;
 }
@@ -140,3 +220,8 @@ void Physics::SetTraps(std::vector<Obstacle*> list) {
 
 void Physics::SetExitPoint(Pair* pair) { _exitPoint = pair; }
 void Physics::SetQuitPoint(Pair* pair) { _quitPoint = pair; }
+void Physics::SetEasyDifficultyPoint(Pair* pair) { _easyPoint = pair; }
+void Physics::SetHardDifficultyPoint(Pair* pair) { _hardPoint = pair; }
+void Physics::SetPlayerOnePoint(Pair* pair) { _p1Point = pair; }
+void Physics::SetPlayerTwoPoint(Pair* pair) { _p2Point = pair; }
+void Physics::SetPlayerThreePoint(Pair* pair) { _p3Point = pair; }

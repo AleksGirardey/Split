@@ -142,9 +142,25 @@ void Player::Draw(float deltaTime) {
 		_timeToSpawn = 0;
 	}
 
-	if (_physics->CheckExit(_sprite->getPosX(), _sprite->getPosY())) {
-		std::cout << "Exit triggered" << std::endl;
+	if (_exitPoint != NULL && _physics->CheckExit(_sprite->getPosX(), _sprite->getPosY())) {
 		Global::Win = true;
+	}
+	if (_physics->CheckEasy(_sprite->getPosX(), _sprite->getPosY())) {
+		Global::Easy = true;
+		Global::Win = true;
+	}
+	if (_physics->CheckHard(_sprite->getPosX(), _sprite->getPosY())) {
+		Global::Easy = false;
+		Global::Win = true;
+	}
+	if (_physics->CheckPlayerOne(_sprite->getPosX(), _sprite->getPosY())) {
+		Global::PlayerAnim = 1;
+	}
+	if (_physics->CheckPlayerTwo(_sprite->getPosX(), _sprite->getPosY())) {
+		Global::PlayerAnim = 2;
+	}
+	if (_physics->CheckPlayerThree(_sprite->getPosX(), _sprite->getPosY())) {
+		Global::PlayerAnim = 3;
 	}
 
 	if (_quitPoint != NULL && _physics->CheckQuit(_sprite->getPosX(), _sprite->getPosY()))
@@ -175,7 +191,18 @@ void Player::SetQuitPoint(Pair* pair) {
 	_physics->SetQuitPoint(pair);
 }
 
+void Player::SetEasyDifficultyPoint(Pair* pair) { _physics->SetEasyDifficultyPoint(pair); }
+void Player::SetHardDifficultyPoint(Pair* pair) { _physics->SetHardDifficultyPoint(pair); }
+
+void Player::SetPlayerOnePoint(Pair* pair) { _physics->SetPlayerOnePoint(pair); }
+void Player::SetPlayerTwoPoint(Pair* pair) { _physics->SetPlayerTwoPoint(pair); }
+void Player::SetPlayerThreePoint(Pair* pair) { _physics->SetPlayerThreePoint(pair); }
+
 void Player::GoSpawn() {
 	_sprite->setPosX(_spawnPoint->GetKey() * SPRITESHEET_CELL_SIZE * Global::Scale);
 	_sprite->setPosY((_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale) - 1.f);
+}
+
+void Player::SetAnimator(Animator* animation) {
+	_animator = animation;
 }

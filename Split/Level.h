@@ -8,6 +8,11 @@
 #define EXITINDEX 241
 #define TRAPINDEX 165
 #define QUITINDEX 589
+#define EASYINDEX 373
+#define HARDINDEX 374
+#define PLAYERONEINDEX 242
+#define PLAYERTWOINDEX 274
+#define PLAYERTHREEINDEX 306
 
 class Level {
 private:
@@ -29,7 +34,15 @@ public:
 	int Scale;
 	Pair* SpawnPoint;
 	Pair* ExitPoint;
+
+	// Optional Points
 	Pair* QuitPoint;
+	Pair* EasyDifficultyPoint;
+	Pair* HardDifficultyPoint;
+	Pair* PlayerOnePoint;
+	Pair* PlayerTwoPoint;
+	Pair* PlayerThreePoint;
+
 	Level* NextLevel;
 	std::vector<Obstacle*> ObstacleList;
 	std::vector<Obstacle*> TrapList;

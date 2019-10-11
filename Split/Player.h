@@ -51,12 +51,18 @@ public:
 	void goingDown();
 	void idle(Movements);
 
+	void SetAnimator(Animator*);
 	void SetObstacles(std::vector<Obstacle*>);
 	void SetTraps(std::vector<Obstacle*>);
 	void SetSpawn(Pair*);
 	void SetExitPoint(Pair*);
 	void SetQuitPoint(Pair*);
-	void GoSpawn();
+	void SetEasyDifficultyPoint(Pair*);
+	void SetHardDifficultyPoint(Pair*);
+	void SetPlayerOnePoint(Pair*);
+	void SetPlayerTwoPoint(Pair*);
+	void SetPlayerThreePoint(Pair*);
 
+	void GoSpawn();
 	void Draw(float deltaTime);
 };

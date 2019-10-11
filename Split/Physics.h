@@ -18,6 +18,12 @@ class Physics
 	Pair* _exitPoint;
 	Pair* _quitPoint;
 
+	Pair* _easyPoint;
+	Pair* _hardPoint;
+	Pair* _p1Point;
+	Pair* _p2Point;
+	Pair* _p3Point;
+
 	float _strenght = 0;
 public:
 	static float boxPlayer;
@@ -34,11 +40,21 @@ public:
 	bool CheckTrigger(float posX, float posY);
 	bool CheckExit(float posX, float posY);
 	bool CheckQuit(float posX, float posY);
+	bool CheckEasy(float posX, float posY);
+	bool CheckHard(float posX, float posY);
+	bool CheckPlayerOne(float posX, float posY);
+	bool CheckPlayerTwo(float posX, float posY);
+	bool CheckPlayerThree(float posX, float posY);
 	float GetVelocity();
 
 	void SetObstacles(std::vector<Obstacle*> list);
 	void SetTraps(std::vector<Obstacle*> list);
 	void SetExitPoint(Pair* pair);
 	void SetQuitPoint(Pair* pair);
+	void SetEasyDifficultyPoint(Pair* pair);
+	void SetHardDifficultyPoint(Pair* pair);
+	void SetPlayerOnePoint(Pair* pair);
+	void SetPlayerTwoPoint(Pair* pair);
+	void SetPlayerThreePoint(Pair* pair);
 };
 

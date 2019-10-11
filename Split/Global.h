@@ -20,8 +20,12 @@ public:
 	static int ChunkSize;
 	static int ChunkCount;
 
+	static int PlayerAnim;
+
 	static bool Win;
 	static bool Init;
+
+	static bool Easy;
 };
 
 const unsigned FLIPPED_H = 0x80000000;

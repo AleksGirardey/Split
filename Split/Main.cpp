@@ -39,10 +39,13 @@ int main(int argc, char** argv) {
 	spriteManager.Load(levelManager.CurrentLevel);
 
 	Physics physics;
+	Animator animPlayerZero("218", "218", "218", "218", 0.5f);
 	Animator animPlayerOne("242", "243,244", "245,246", "247", 0.5f);
+	Animator animPlayerTwo("274", "275,276", "277,278", "279", 0.5f);
+	Animator animPlayerThree("306", "307,308", "309,310", "311", 0.5f);
 	Player playerOne(
 		&spriteManager,
-		&animPlayerOne,
+		&animPlayerZero,
 		&physics,
 		levelManager.CurrentLevel->SpawnPoint,
 		levelManager.CurrentLevel->ExitPoint);
@@ -54,12 +57,27 @@ int main(int argc, char** argv) {
 	playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
 	playerOne.SetQuitPoint(levelManager.CurrentLevel->QuitPoint);
 
+	playerOne.SetEasyDifficultyPoint(levelManager.CurrentLevel->EasyDifficultyPoint);
+	playerOne.SetHardDifficultyPoint(levelManager.CurrentLevel->HardDifficultyPoint);
+	playerOne.SetPlayerOnePoint(levelManager.CurrentLevel->PlayerOnePoint);
+	playerOne.SetPlayerTwoPoint(levelManager.CurrentLevel->PlayerTwoPoint);
+	playerOne.SetPlayerThreePoint(levelManager.CurrentLevel->PlayerThreePoint);
+
 	Global::Init = true;
 	
 	while (window->isOpen()) {
 		sf::Event event;
 		//sf::Joystick::update();
 		deltaTime = clock.restart();
+
+		if (Global::PlayerAnim == 1) {
+			playerOne.SetAnimator(&animPlayerOne);
+		} else if (Global::PlayerAnim == 2) {
+			playerOne.SetAnimator(&animPlayerTwo);
+		} else if (Global::PlayerAnim == 3) {
+			playerOne.SetAnimator(&animPlayerThree);
+		}
+
 
 		while (window->pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
