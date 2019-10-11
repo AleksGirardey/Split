@@ -153,5 +153,5 @@ void Player::SetExitPoint(Pair* pair) {
 
 void Player::GoSpawn() {
 	_sprite->setPosX(_spawnPoint->GetKey() * SPRITESHEET_CELL_SIZE * Global::Scale);
-	_sprite->setPosY(_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale);
+	_sprite->setPosY((_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale) + 1.f);
 }
