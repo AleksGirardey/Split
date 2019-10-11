@@ -25,18 +25,26 @@ void SpriteManager::Load(Level* level) {
 		}
 	}
 	int index = 0;
+	
+	unsigned int desktopWidth = sf::VideoMode::getDesktopMode().width;
+	unsigned int desktopHeight = sf::VideoMode::getDesktopMode().height;
+	int windowOffset = 30;
+	int offsetPosX = 0;
+	int offsetPosY = 0;
 
 	_chunks = new Chunk *[level->ChunkCount];
 	for (int i = 0; i < level->ChunkCount; i++) {
 		_chunks[i] = new Chunk[level->ChunkCount];
 		for (int j = 0; j < level->ChunkCount; j++) {
+			offsetPosX = (desktopWidth / 2) - ((level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 2);
+			offsetPosY = (desktopHeight / 2) - ((level->ChunkCount * (windowSize + windowOffset) - windowOffset) / 2);
 			window = new sf::RenderWindow(
 				sf::VideoMode(windowSize, windowSize),
 				"SFML",
 				sf::Style::None);
 			window->setPosition(sf::Vector2i(
-				staticListPair[index].GetKey() * (windowSize + 30),
-				staticListPair[index].GetValue() * (windowSize + 30)));
+				(staticListPair[index].GetKey() * (windowSize + windowOffset)) + offsetPosX ,
+				(staticListPair[index].GetValue() * (windowSize + windowOffset)) + offsetPosY));
 			_chunks[i][j] = Chunk(window, _spritesheet);
 			if (!LevelManager::menuActive) {
 				if (i == floor(level->SpawnPoint->GetKey() / level->ChunkSize)
