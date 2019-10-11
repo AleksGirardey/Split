@@ -34,13 +34,13 @@ void Physics::AddForce(float strenght) {
 }
 bool Physics::UpdateGravity(Sprite* sprite, float deltaTime) {
 	if (_strenght > 0) {
-		_strenght -= (PLAYER_MASS*deltaTime);
-		if (MoveY(sprite, -PLAYER_MASS*deltaTime-1.5f)) {
+		_strenght -= (PLAYER_MASS*deltaTime* Global::Scale);
+		if (MoveY(sprite, -PLAYER_MASS*deltaTime* Global::Scale* 2)) {
 			_strenght = 0;
 		}
 	}
 	else {
-		MoveY(sprite, PLAYER_MASS*deltaTime+1.5f);
+		MoveY(sprite, PLAYER_MASS*deltaTime* Global::Scale*2);
 	}
 	return false;
 }
@@ -49,7 +49,8 @@ void Physics::MoveX(Sprite* sprite, float speed) {
 		sprite->setPosX(sprite->getPosX() + speed);
 }
 bool Physics::MoveY(Sprite* sprite, float speed) {
-	int diviser = 10 * PLAYER_MASS;
+	int diviser = 10 * PLAYER_MASS*2;
+
 	if (CheckObstacle(sprite->getPosX(), sprite->getPosY() + speed)) {
 		for (int i = 1; i <= diviser; i++) {
 			if (CheckObstacle(sprite->getPosX(), sprite->getPosY() + (speed / diviser))) {

@@ -98,11 +98,11 @@ void Player::Draw(float deltaTime) {
 	bool goingLeft = false;
 
 	//Movement
-	if (_left) _physics->MoveX(_sprite,-(PLAYER_SPEED * deltaTime));
-	if (_right) _physics->MoveX(_sprite, (PLAYER_SPEED * deltaTime));
+	if (_left) _physics->MoveX(_sprite,-(PLAYER_SPEED * deltaTime*Global::Scale));
+	if (_right) _physics->MoveX(_sprite, (PLAYER_SPEED * deltaTime*Global::Scale));
 	if (_up && !_jump) {
 		_jump = true;
-		_physics->AddForce(PLAYER_JUMP);
+		_physics->AddForce(PLAYER_JUMP*Global::Scale);
 	}
 	//if (_down) _sprite->setPosY(_sprite->getPosY() + (PLAYER_SPEED * deltaTime));
 	if (_physics->GetVelocity() <= 0) {

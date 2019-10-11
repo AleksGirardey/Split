@@ -9,7 +9,7 @@
 #define FRAME_RATE 144
 
 #define PLAYER_SPEED 0.1
-#define PLAYER_JUMP 180
+#define PLAYER_JUMP 75
 #define PLAYER_MASS 0.2
 
 #endif // !GLOBAL
