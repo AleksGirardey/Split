@@ -185,8 +185,8 @@ void SpriteManager::PlacementChunk(float deltaTime) {
 	if (!LevelManager::menuActive) {
 		for (int i = 0; i < Global::ChunkCount; i++) {
 			for (int j = 0; j < Global::ChunkCount; j++) {
-				int posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), (i * (windowSize + windowOffset))- (Global::ChunkCount*(windowOffset)) /2, multiply);
-				int posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), (j * (windowSize + windowOffset))- (Global::ChunkCount*(windowOffset)) /2, multiply);
+				int posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), i*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2)+ windowSize/2, multiply);
+				int posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), j*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2)+ windowSize/2, multiply);
 				_chunks[i][j].GetWindow()->setPosition(sf::Vector2i(posx,posy));
 			}
 		}
