@@ -108,7 +108,6 @@ int main(int argc, char** argv) {
 		if (Global::Win) {
 			if (levelManager.CurrentLevel->NextLevel == NULL)
 				exit(EXIT_SUCCESS);
-
 			spriteManager.NextLevel();
 			levelManager.CurrentLevel = levelManager.CurrentLevel->NextLevel;
 			spriteManager.Load(levelManager.CurrentLevel);
@@ -119,6 +118,7 @@ int main(int argc, char** argv) {
 			playerOne.SetQuitPoint(levelManager.CurrentLevel->QuitPoint);
 			playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 			playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
+			Physics::boxPlayer = 3 * Global::Scale;
 			Global::Win = false;
 		}
 	}
