@@ -3,7 +3,7 @@
 LevelParams LevelManager::Menu = { "./Assets/Menu.csv", 12, 1, 5 };
 LevelParams LevelManager::LevelOne = { "./Assets/LevelOne.csv", 4, 2, 4 };
 LevelParams LevelManager::LevelTwo = { "./Assets/LevelTwo.csv", 4, 4, 2 };
-LevelParams LevelManager::LevelThree = { "./Assets/LevelThree.csv", 4, 6, 1 };
+LevelParams LevelManager::LevelThree = { "./Assets/LevelThree.csv", 4, 6, 2 };
 bool LevelManager::menuActive = true;
 
 LevelManager::LevelManager() {
