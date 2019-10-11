@@ -25,6 +25,7 @@ private:
 
 	Pair* _spawnPoint;
 	Pair* _exitPoint;
+	Pair* _quitPoint;
 
 	bool _left;
 	bool _right;
@@ -52,6 +53,7 @@ public:
 	void SetTraps(std::vector<Obstacle*>);
 	void SetSpawn(Pair*);
 	void SetExitPoint(Pair*);
+	void SetQuitPoint(Pair*);
 	void GoSpawn();
 
 	void Draw(float deltaTime);

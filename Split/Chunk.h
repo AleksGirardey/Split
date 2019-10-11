@@ -18,6 +18,11 @@ public:
 	Chunk();
 	~Chunk();
 
+	Chunk* TopNeighbor;
+	Chunk* BotNeighbor;
+	Chunk* LeftNeighbor;
+	Chunk* RightNeighbor;
+
 	void AddSprite(Sprite sprite);
 	void AddPlayer(Sprite* sprite);
 

@@ -3,12 +3,13 @@
 #include <string>
 
 Level::Level(std::string path, int chunkSize, int chunkCount, int scale, Level* nextLevel) :
-	_width(chunkCount * chunkSize),
+	_width(chunkCount* chunkSize),
 	_height(chunkCount* chunkSize),
 	ChunkSize(chunkSize),
 	ChunkCount(chunkCount),
 	Scale(scale),
-	NextLevel(nextLevel)
+	NextLevel(nextLevel),
+	QuitPoint(NULL)
 {
 	ObstacleList = std::vector<Obstacle*>();
 	TrapList = std::vector<Obstacle*>();
@@ -60,6 +61,7 @@ Level::~Level() {
 	delete SpawnPoint;
 	delete ExitPoint;
 	delete NextLevel;
+	delete QuitPoint;
 
 	for (std::vector<Obstacle*>::iterator it = ObstacleList.begin(); it != ObstacleList.end(); it++)
 		delete (*it);
@@ -93,7 +95,8 @@ void Level::CheckTile(unsigned rawIndex, int posX, int posY) {
 		SpawnPoint = new Pair(posX, posY);
 	} else if (tileIndex - 1 == EXITINDEX) {
 		ExitPoint = new Pair(posX, posY);
-	}
+	} else if (tileIndex - 1 == QUITINDEX)
+		QuitPoint = new Pair(posX, posY);
 }
 
 void Level::LoadFromCSV(std::string path) {

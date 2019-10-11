@@ -47,19 +47,12 @@ int main(int argc, char** argv) {
 		levelManager.CurrentLevel->SpawnPoint,
 		levelManager.CurrentLevel->ExitPoint);
 
-/*	if (!LevelManager::menuActive) {
-		int spawnX = levelManager.CurrentLevel->SpawnPoint->GetKey();
-		//		+ (spriteManager.MainChunkX * SPRITESHEET_CELL_SIZE * Global::Scale);
-		int spawnY = levelManager.CurrentLevel->SpawnPoint->GetValue();
-		//		+ (spriteManager.MainChunkY * SPRITESHEET_CELL_SIZE * Global::Scale);
-		playerOne = Player(&spriteManager, &animPlayerOne, &physics, spawnX, spawnY);
-	}*/
-
 	spriteManager.SortStaticElements();
 	sf::RenderWindow* window = spriteManager.GetMainWindow();
 	playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 	playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
 	playerOne.SetExitPoint(levelManager.CurrentLevel->ExitPoint);
+	playerOne.SetQuitPoint(levelManager.CurrentLevel->QuitPoint);
 
 	
 	while (window->isOpen()) {
@@ -113,7 +106,8 @@ int main(int argc, char** argv) {
 		window = spriteManager.GetMainWindow();
 
 		if (Global::Win) {
-			if (levelManager.CurrentLevel->NextLevel == NULL) exit(EXIT_SUCCESS);
+			if (levelManager.CurrentLevel->NextLevel == NULL)
+				exit(EXIT_SUCCESS);
 
 			spriteManager.NextLevel();
 			levelManager.CurrentLevel = levelManager.CurrentLevel->NextLevel;

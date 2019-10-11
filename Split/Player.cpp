@@ -130,6 +130,9 @@ void Player::Draw(float deltaTime) {
 		std::cout << "Exit triggered" << std::endl;
 		Global::Win = true;
 	}
+
+	if (_quitPoint != NULL && _physics->CheckQuit(_sprite->getPosX(), _sprite->getPosY()))
+		exit(EXIT_SUCCESS);
 }
 
 void	Player::ClampX(Sprite* sprite) {
@@ -151,7 +154,12 @@ void Player::SetExitPoint(Pair* pair) {
 	_physics->SetExitPoint(pair);
 }
 
+void Player::SetQuitPoint(Pair* pair) {
+	_quitPoint = pair;
+	_physics->SetQuitPoint(pair);
+}
+
 void Player::GoSpawn() {
 	_sprite->setPosX(_spawnPoint->GetKey() * SPRITESHEET_CELL_SIZE * Global::Scale);
-	_sprite->setPosY(_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale);
+	_sprite->setPosY((_spawnPoint->GetValue() * SPRITESHEET_CELL_SIZE * Global::Scale) + 1.f);
 }

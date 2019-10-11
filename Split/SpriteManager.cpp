@@ -52,6 +52,14 @@ void SpriteManager::Load(Level* level) {
 				_mainChunk = _chunks[MainChunkX][MainChunkY];
 			}
 			
+			if (i > 0) {
+				_chunks[i][j].LeftNeighbor = &_chunks[i - 1][j];
+				_chunks[i - 1][j].RightNeighbor = &_chunks[i][j];
+			}
+			if (j > 0) {
+				_chunks[i][j].TopNeighbor = &_chunks[i][j - 1];
+				_chunks[i][j - 1].BotNeighbor = &_chunks[i][j];
+			}
 
 			staticListPair.erase(staticListPair.begin() + index);
 			if (staticListPair.size() != 0)
@@ -108,8 +116,8 @@ void SpriteManager::DistributeSprites() {
 	Sort();
 
 	for (auto it = _sortedList.begin(); it != _sortedList.end(); it++) {
-		chunkX = (int) floor((*it)->getPosX() / chunkSize);
-		chunkY = (int) floor((*it)->getPosY() / chunkSize);
+		chunkX = (int)floor((*it)->getPosX() / chunkSize);
+		chunkY = (int)floor((*it)->getPosY() / chunkSize);
 
 		_chunks[chunkX][chunkY].AddSprite(**it);
 	}
