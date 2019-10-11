@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "SpriteSheet.h"
 #include <list>
+#include "Pair.h"
 
 class Chunk {
 private:
@@ -25,6 +26,7 @@ public:
 	Chunk* BotNeighbor;
 	Chunk* LeftNeighbor;
 	Chunk* RightNeighbor;
+	Pair randMemory;
 
 	void AddSprite(Sprite sprite);
 	void AddPlayer(Sprite* sprite);

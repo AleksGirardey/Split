@@ -3,6 +3,10 @@
 #include <random>
 #include "Pair.h"
 #include "Expo.h"
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
 
 SpriteManager::SpriteManager(SpriteSheet* spritesheet) :
 	_spritesheet(spritesheet)
@@ -12,6 +16,7 @@ SpriteManager::SpriteManager(SpriteSheet* spritesheet) :
 }
 
 void SpriteManager::Load(Level* level) {
+	srand(time(NULL));
 	int windowSize = level->ChunkSize * SPRITESHEET_CELL_SIZE * level->Scale;
 	sf::RenderWindow* window;
 	std::vector<Pair> staticListPair = std::vector<Pair>();
@@ -25,6 +30,8 @@ void SpriteManager::Load(Level* level) {
 			staticListPair.push_back(Pair(i, j));
 		}
 	}
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::shuffle(staticListPair.begin(), staticListPair.end(), std::default_random_engine(seed));
 	int index = 0;
 	
 	unsigned int desktopWidth = sf::VideoMode::getDesktopMode().width;
@@ -64,6 +71,7 @@ void SpriteManager::Load(Level* level) {
 				(0 * (windowSize + windowOffset)) + offsetPosX ,
 				(0 * (windowSize + windowOffset)) + offsetPosY));
 			_chunks[i][j] = Chunk(window,_miniMap, _spritesheet);
+			_chunks[i][j].randMemory = staticListPair[index];
 			if (!LevelManager::menuActive) {
 				if (i == floor(level->SpawnPoint->GetKey() / level->ChunkSize)
 					&& j == floor(level->SpawnPoint->GetValue() / level->ChunkSize)) {
@@ -86,10 +94,7 @@ void SpriteManager::Load(Level* level) {
 				_chunks[i][j].TopNeighbor = &_chunks[i][j - 1];
 				_chunks[i][j - 1].BotNeighbor = &_chunks[i][j];
 			}
-
-			staticListPair.erase(staticListPair.begin() + index);
-			if (staticListPair.size() != 0)
-				index = rand() % staticListPair.size();			
+			index++;
 		}
 	}
 	
@@ -202,17 +207,18 @@ void SpriteManager::PlacementChunk(float deltaTime) {
 		return;
 	_timeAnim += deltaTime;
 	if (!LevelManager::menuActive) {
+		//std::cout << "\n";
 		for (int i = 0; i < Global::ChunkCount; i++) {
 			for (int j = 0; j < Global::ChunkCount; j++) {
 				int posx = 0;
 				int posy = 0;
 				if (Global::Easy) {
-					posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), i*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2 - windowSize, multiply);
-					posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), j*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
+					posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), _chunks[i][j].randMemory.GetKey()*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2 - windowSize, multiply);
+					posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), _chunks[i][j].randMemory.GetValue()*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
 				}
 				else {
-					posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), i*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
-					posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), j*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
+					posx = Expo::easeInOut(_timeAnim, (desktopWidth / 2) - (windowSize / 2), _chunks[i][j].randMemory.GetKey()*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
+					posy = Expo::easeInOut(_timeAnim, (desktopHeight / 2) - (windowSize / 2), _chunks[i][j].randMemory.GetValue()*((windowSize + windowOffset)) - ((Global::ChunkCount*(windowSize + windowOffset) - windowOffset) / 2) + windowSize / 2, multiply);
 				}
 				_chunks[i][j].GetWindow()->setPosition(sf::Vector2i(posx,posy));
 			}

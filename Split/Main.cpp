@@ -34,7 +34,6 @@ int main(int argc, char** argv) {
 	LevelManager levelManager;
 	LevelManager::menuActive = true;
 	spriteManager.Load(levelManager.CurrentLevel);
-
 	Physics physics;
 	Animator animPlayerZero("218", "218", "218", "218", 0.5f);
 	Animator animPlayerOne("242", "243,244", "245,246", "247", 0.5f);
@@ -126,7 +125,6 @@ int main(int argc, char** argv) {
 		spriteManager.DrawAll();
 		spriteManager.PlacementChunk((float)deltaTime.asMilliseconds());
 		window = spriteManager.GetMainWindow();
-
 		if (Global::Win) {
 			if (levelManager.CurrentLevel->NextLevel == NULL)
 				exit(EXIT_SUCCESS);
