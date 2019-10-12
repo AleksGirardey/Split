@@ -141,6 +141,13 @@ int main(int argc, char** argv) {
 			playerOne.SetQuitPoint(levelManager.CurrentLevel->QuitPoint);
 			playerOne.SetObstacles(levelManager.CurrentLevel->ObstacleList);
 			playerOne.SetTraps(levelManager.CurrentLevel->TrapList);
+
+			playerOne.SetEasyDifficultyPoint(levelManager.CurrentLevel->EasyDifficultyPoint);
+			playerOne.SetHardDifficultyPoint(levelManager.CurrentLevel->HardDifficultyPoint);
+			playerOne.SetPlayerOnePoint(levelManager.CurrentLevel->PlayerOnePoint);
+			playerOne.SetPlayerTwoPoint(levelManager.CurrentLevel->PlayerTwoPoint);
+			playerOne.SetPlayerThreePoint(levelManager.CurrentLevel->PlayerThreePoint);
+
 			Physics::boxPlayer = 5 * Global::Scale;
 			Global::Win = false;
 			Global::Init = true;
